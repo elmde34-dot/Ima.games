@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMA GAMES | Catálogo Completo</title>
-    <!-- Iconos y Tipografía -->
+    <title>IMA GAMES | Catálogo Maestro</title>
+    <!-- Bibliotecas Externas -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     
@@ -17,8 +17,10 @@
             --bg: #030005;
             --card: #0f0a15;
             --glow: rgba(168, 85, 247, 0.4);
+            --text-main: #e2e8f0;
         }
 
+        /* RESET Y BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
@@ -26,16 +28,17 @@
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(107, 33, 168, 0.1) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(107, 33, 168, 0.1) 0%, transparent 40%);
-            color: #e2e8f0;
+            color: var(--text-main);
             font-family: 'Rajdhani', sans-serif;
             min-height: 100vh;
+            line-height: 1.6;
         }
 
-        /* NAVBAR PROFESIONAL */
+        /* BARRA DE NAVEGACIÓN EXTENDIDA */
         nav {
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(15px);
-            padding: 0.8rem 4%;
+            padding: 1rem 5%;
             border-bottom: 2px solid var(--primary-dark);
             display: flex;
             flex-wrap: wrap;
@@ -44,205 +47,253 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            gap: 10px;
+            gap: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         .logo {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             font-weight: 900;
             color: white;
-            text-shadow: 0 0 10px var(--glow);
+            text-shadow: 0 0 15px var(--glow);
+            letter-spacing: 1px;
         }
 
         .logo span { color: var(--primary); }
 
-        .search-container {
+        /* CONTENEDOR DE FILTROS Y BÚSQUEDA */
+        .filter-section {
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             order: 3;
+            background: rgba(26, 21, 37, 0.5);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #2a1f3d;
         }
 
-        @media (min-width: 768px) {
-            .search-container { width: 55%; order: 2; flex-direction: row; }
-            .logo { font-size: 1.5rem; }
+        @media (min-width: 992px) {
+            .filter-section { width: 60%; order: 2; flex-direction: row; align-items: center; }
+            .logo { font-size: 1.8rem; }
         }
 
-        .search-box { position: relative; flex-grow: 1; }
+        .search-box { position: relative; flex-grow: 2; }
         .search-box input {
             width: 100%;
-            background: #1a1525;
+            background: #0f0a15;
             border: 1px solid var(--primary-dark);
-            padding: 12px 15px 12px 45px;
-            border-radius: 10px;
+            padding: 14px 15px 14px 45px;
+            border-radius: 12px;
             color: white;
-            font-size: 1rem;
             font-family: inherit;
+            font-size: 1rem;
+            transition: 0.3s;
         }
-
-        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); }
+        .search-box input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px var(--glow); }
+        .search-box i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary); }
 
         .filter-select {
-            background: #1a1525;
+            background: #0f0a15;
             border: 1px solid var(--primary-dark);
             color: white;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 14px;
+            border-radius: 12px;
             font-family: inherit;
             cursor: pointer;
-            outline: none;
+            flex-grow: 1;
+            font-weight: 600;
         }
+
+        /* BOTÓN FILTRAR MEJORADO */
+        .btn-filtrar {
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-family: 'Orbitron';
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.4s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .btn-filtrar:hover { filter: brightness(1.2); transform: translateY(-2px); box-shadow: 0 5px 15px var(--glow); }
 
         .cart-btn-nav {
             background: var(--primary-dark);
             color: white;
-            padding: 10px 188px;
-            border-radius: 10px;
+            padding: 12px 20px;
+            border-radius: 12px;
             cursor: pointer;
             position: relative;
             order: 2;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            transition: 0.3s;
         }
-
-        @media (max-width: 768px) {
-            .cart-btn-nav { padding: 10px 18px; }
-        }
+        .cart-btn-nav:hover { background: var(--primary); }
 
         #cart-count {
-            background: var(--accent);
-            color: black;
-            font-size: 0.8rem;
-            padding: 2px 7px;
-            border-radius: 50%;
-            font-weight: bold;
+            position: absolute; top: -8px; right: -8px;
+            background: var(--accent); color: black; font-size: 0.85rem;
+            padding: 3px 8px; border-radius: 50%; font-weight: 900;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
         }
 
-        /* CUERPO Y GRID */
-        .container { max-width: 1400px; margin: 0 auto; padding: 1rem; }
+        /* CONTENIDO PRINCIPAL */
+        .main-container { max-width: 1500px; margin: 0 auto; padding: 2rem 1rem; }
         
-        .section-title {
+        .hero-title {
             text-align: center;
-            margin: 30px 0 15px;
+            margin-bottom: 40px;
             font-family: 'Orbitron', sans-serif;
-            color: var(--primary);
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
         }
+        .hero-title h1 { font-size: 2.5rem; color: #fff; text-transform: uppercase; }
+        .hero-title p { color: var(--primary); font-weight: bold; letter-spacing: 3px; }
 
         .grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
         }
 
-        @media (min-width: 480px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1024px) { .grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); } }
-
+        /* DISEÑO DE TARJETA MEJORADO */
         .card {
-            background: var(--card);
+            background: linear-gradient(145deg, #130d1f, #0f0a15);
             border: 1px solid #2a1f3d;
-            border-radius: 15px;
-            padding: 15px;
+            border-radius: 20px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            transition: 0.3s;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
         }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--primary); transform: scaleX(0); transition: 0.4s;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .card:hover::before { transform: scaleX(1); }
 
         .game-title {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin: 0.5rem 0 1rem;
-            min-height: 2.8rem;
+            margin: 10px 0 20px;
+            min-height: 3rem;
             color: #fff;
-            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .price-tag {
-            background: #161122;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            text-align: center;
+        .price-wrapper {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: auto;
+            border: 1px solid rgba(168, 85, 247, 0.1);
         }
-
-        .price { font-size: 1.6rem; font-weight: 900; color: var(--primary); }
+        .price { font-size: 1.8rem; font-weight: 900; color: var(--primary); font-family: 'Orbitron'; }
 
         .add-btn {
             background: var(--primary-dark);
             color: white;
-            border: none; padding: 14px; border-radius: 10px;
-            font-weight: bold; text-transform: uppercase; cursor: pointer;
-            font-size: 0.85rem;
-            width: 100%;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Rajdhani';
+            letter-spacing: 1px;
         }
+        .add-btn:hover { background: var(--accent); color: #000; }
 
-        /* MODALES */
+        /* MODALES ESTILIZADOS */
         .modal {
             display: none;
             position: fixed;
             z-index: 2000;
             left: 0; top: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(8px);
-            overflow-y: auto;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(12px);
         }
 
         .modal-content {
             background: var(--card);
             margin: 5% auto;
-            padding: 20px;
+            padding: 30px;
             width: 95%;
-            max-width: 450px;
+            max-width: 500px;
             border: 2px solid var(--primary);
-            border-radius: 20px;
+            border-radius: 25px;
             text-align: center;
-            position: relative;
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.3);
         }
 
-        .cart-list { margin: 15px 0; max-height: 300px; overflow-y: auto; text-align: left; }
-        .cart-item { font-size: 0.9rem; display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #333; }
+        .cart-list { margin: 20px 0; max-height: 350px; overflow-y: auto; padding-right: 10px; }
+        .cart-item {
+            background: rgba(255,255,255,0.05);
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        .btn-pagar {
+        .btn-checkout {
             background: var(--mp-blue);
             color: white;
             width: 100%;
-            padding: 18px;
-            border-radius: 12px;
-            font-weight: bold;
+            padding: 20px;
+            border-radius: 15px;
+            font-weight: 900;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            margin-top: 15px;
         }
 
-        .payment-info {
+        .payment-box {
             background: #1a1525;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
             border: 1px dashed var(--accent);
         }
 
-        .wa-link {
+        .whatsapp-button {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            margin-top: 15px;
+            gap: 10px;
             background: #25d366;
-            color: black;
-            padding: 12px;
-            border-radius: 10px;
+            color: #000;
+            padding: 15px;
+            border-radius: 12px;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 900;
+            margin-top: 20px;
         }
 
-        footer { text-align: center; padding: 3rem 1rem; color: #666; font-size: 0.9rem; border-top: 1px solid #1a1525; }
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #555;
+            border-top: 1px solid #1a1525;
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
@@ -253,60 +304,68 @@
             <i class="fa-solid fa-cart-shopping"></i>
             <span id="cart-count">0</span>
         </div>
-        <div class="search-container">
+        <div class="filter-section">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="busqueda" placeholder="Buscar juego o Plus...">
+                <input type="text" id="busqueda" placeholder="Buscar en el catálogo...">
             </div>
-            <select id="ordenar" class="filter-select" onchange="actualizarPantalla()">
-                <option value="todos">Ordenar por...</option>
+            <select id="ordenar" class="filter-select">
+                <option value="todos">Todas las categorías</option>
                 <option value="menor">Precio: Menor a Mayor</option>
                 <option value="mayor">Precio: Mayor a Menor</option>
-                <option value="ps4">Solo PS4</option>
-                <option value="ps5">Solo PS5</option>
+                <option value="ps4">Solo PlayStation 4</option>
+                <option value="ps5">Solo PlayStation 5</option>
             </select>
+            <button class="btn-filtrar" onclick="actualizarPantalla()">
+                <i class="fa-solid fa-sliders"></i> FILTRAR
+            </button>
         </div>
     </nav>
 
-    <div class="container">
-        <h2 class="section-title">Nuestros Productos</h2>
+    <div class="main-container">
+        <div class="hero-title">
+            <p>EL MEJOR PRECIO DE FORMOSA</p>
+            <h1>Catálogo Premium</h1>
+        </div>
         <div id="grid-productos" class="grid"></div>
     </div>
 
     <!-- MODAL CARRITO -->
     <div id="cart-modal" class="modal">
         <div class="modal-content">
-            <h2 style="font-family: 'Orbitron';">Tu Carrito</h2>
+            <h2 style="font-family: 'Orbitron'; margin-bottom: 20px;">Tu Pedido</h2>
             <div id="lista-carrito" class="cart-list"></div>
-            <p id="total-modal" style="font-size: 1.4rem; font-weight: bold; margin-bottom: 20px; color: var(--accent)"></p>
-            <button class="btn-pagar" onclick="mostrarPago()">PAGAR CON MERCADO PAGO</button>
-            <button onclick="cerrarModal('cart-modal')" style="background: none; color: #888; border: none; margin-top: 15px; cursor: pointer;">Volver</button>
+            <div id="total-modal" style="font-size: 1.8rem; font-weight: 900; color: var(--accent); margin: 20px 0;"></div>
+            <button class="btn-checkout" onclick="mostrarPago()">PAGAR CON MERCADO PAGO</button>
+            <button onclick="cerrarModal('cart-modal')" style="background: none; color: #666; border: none; margin-top: 20px; cursor: pointer; font-weight: bold;">SEGUIR COMPRANDO</button>
         </div>
     </div>
 
     <!-- MODAL PAGO -->
     <div id="payment-modal" class="modal">
         <div class="modal-content">
-            <h2 style="font-family: 'Orbitron'; color: var(--mp-blue);">MERCADO PAGO</h2>
-            <div class="payment-info">
-                <h3>Datos de Transferencia</h3>
-                <p><strong>Alias:</strong> <span style="color: #fff; background: #333; padding: 4px 8px; border-radius: 4px;">matiascr13</span></p>
+            <h2 style="font-family: 'Orbitron'; color: var(--mp-blue); margin-bottom: 10px;">MERCADO PAGO</h2>
+            <div class="payment-box">
+                <h3 style="margin-bottom: 15px;">Datos para Transferir</h3>
+                <p style="margin-bottom: 8px;"><strong>Alias:</strong> <span style="background: #000; padding: 5px 10px; border-radius: 5px; color: #fff;">matiascr13</span></p>
                 <p><strong>Titular:</strong> Matías</p>
-                <a href="https://wa.me/5493704862044" target="_blank" class="wa-link">
-                    <i class="fa-brands fa-whatsapp"></i> ENVIAR COMPROBANTE
-                </a>
             </div>
-            <button onclick="cerrarModal('payment-modal')" style="background: var(--primary-dark); color: white; border: none; padding: 14px; border-radius: 10px; margin-top: 20px; cursor: pointer; width: 100%;">ENTENDIDO</button>
+            <p style="font-size: 0.9rem; color: #aaa;">Una vez realizada la transferencia, envía el comprobante por WhatsApp para recibir tu juego.</p>
+            <a href="https://wa.me/5493704862044" target="_blank" class="whatsapp-button">
+                <i class="fa-brands fa-whatsapp fa-xl"></i> ENVIAR COMPROBANTE
+            </a>
+            <button onclick="cerrarModal('payment-modal')" style="background: var(--primary-dark); color: white; border: none; padding: 15px; border-radius: 12px; margin-top: 20px; cursor: pointer; width: 100%; font-weight: bold;">CERRAR</button>
         </div>
     </div>
 
     <footer>
         <p>© 2026 IMA GAMES - Formosa, Argentina</p>
+        <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.5;">Desarrollado para Webshoop.ar</p>
     </footer>
 
     <script>
-        const todoElCatalogo = [
-            // PLAYSTATION PLUS
+        const catalogoCompleto = [
+            // --- PLAYSTATION PLUS ---
             { n: "PS Plus Essential - 1 Mes (Español) (PS4/PS5)", b: 12500 },
             { n: "PS Plus Essential - 3 Meses (Español) (PS4/PS5)", b: 25000 },
             { n: "PS Plus Essential - 12 Meses (Español) (PS4/PS5)", b: 65000 },
@@ -331,14 +390,14 @@
             { n: "PS4 - 321 Días Essential (Aleatorio) (PS4)", b: 28000 },
             { n: "PS4 - 81 Días Extra (Aleatorio) (PS4)", b: 20000 },
 
-            // JUEGOS
+            // --- JUEGOS MASIVOS ---
             { n: "A Quiet Place: The Road Ahead (PS5)", b: 12100 },
             { n: "Age Of Empires II: Definitive Edition (PS5)", b: 28200 },
             { n: "Alan Wake 2 (PS5)", b: 20100 },
             { n: "Alan Wake Remastered (PS4/PS5)", b: 6900 },
             { n: "Alien: Isolation - The Collection (PS4)", b: 10200 },
             { n: "Assassin's Creed Odyssey Gold (PS4)", b: 22000 },
-            { n: "Assassin's Creed Origins: Deluxe (PS4)", b: 13100 },
+            { n: "Assassin's Creed Origins (PS4)", b: 13100 },
             { n: "Assassin's Creed Rogue Remastered (PS4)", b: 11100 },
             { n: "Assassin's Creed Valhalla: Deluxe (PS4/PS5)", b: 20900 },
             { n: "Batman™: Arkham Knight (PS4)", b: 8400 },
@@ -350,97 +409,168 @@
             { n: "Blasphemous (PS4)", b: 8600 },
             { n: "Bloodborne™ (PS4)", b: 12100 },
             { n: "Bully (PS4)", b: 11100 },
+            { n: "Call of Duty: Black Ops Cold War (PS4/PS5)", b: 35000 },
+            { n: "Call of Duty: Modern Warfare III (PS4/PS5)", b: 45000 },
             { n: "Crash Bandicoot™ Quadrilogy (PS4)", b: 13300 },
+            { n: "Cyberpunk 2077 (PS5)", b: 28000 },
             { n: "Dark Souls™ II: Scholar (PS4)", b: 20900 },
             { n: "Dark Souls™ III (PS4)", b: 30300 },
             { n: "Dark Souls™: Remastered (PS4)", b: 20900 },
             { n: "Dead By Daylight (PS4/PS5)", b: 14500 },
+            { n: "Dead Island 2 (PS4/PS5)", b: 32000 },
             { n: "Death Stranding Director’s (PS5)", b: 20900 },
             { n: "Detroit: Become Human (PS4)", b: 12100 },
             { n: "Dragon Ball Z: Kakarot (PS4/PS5)", b: 35200 },
             { n: "EA Sports FC™ 26 (PS4)", b: 30000 },
             { n: "EA Sports FC™ 26 (PS5)", b: 25000 },
+            { n: "Elden Ring (PS4/PS5)", b: 42000 },
+            { n: "Fallout 4 G.O.T.Y (PS4)", b: 15000 },
             { n: "Far Cry® 6 Deluxe (PS4/PS5)", b: 9400 },
             { n: "Ghost Of Tsushima Director (PS5)", b: 30300 },
             { n: "God Of War (2018) (PS4)", b: 12100 },
+            { n: "God of War Ragnarök (PS4/PS5)", b: 40000 },
             { n: "Gran Turismo® 7 (PS4/PS5)", b: 39600 },
+            { n: "GTA V Premium Edition (PS4)", b: 18000 },
             { n: "Hollow Knight: Silksong (PS4/PS5)", b: 18300 },
+            { n: "Horizon Forbidden West (PS4/PS5)", b: 32000 },
             { n: "Horizon Zero Dawn Complete (PS4)", b: 20900 },
-            { n: "Mortal Kombat: Legacy (PS4/PS5)", b: 35200 },
+            { n: "Marvel's Spider-Man 2 (PS5)", b: 45000 },
+            { n: "Mortal Kombat 1 (PS5)", b: 38000 },
+            { n: "Mortal Kombat 11 Ultimate (PS4/PS5)", b: 22000 },
+            { n: "Need for Speed Unbound (PS5)", b: 19000 },
+            { n: "Ratchet & Clank: Rift Apart (PS5)", b: 30000 },
+            { n: "Red Dead Redemption 2 (PS4)", b: 25000 },
             { n: "Resident Evil 4 Gold (PS4/PS5)", b: 20900 },
             { n: "Resident Evil Village (PS4/PS5)", b: 17300 },
             { n: "Silent Hill 2 (PS5)", b: 39600 },
             { n: "Spider-Man Miles Morales (PS5)", b: 32600 },
+            { n: "Star Wars Jedi: Survivor (PS5)", b: 34000 },
+            { n: "The Last of Us Part I (PS5)", b: 38000 },
             { n: "TLOU Part II (PS4)", b: 30300 },
             { n: "UFC™ 5 (PS5)", b: 17300 },
+            { n: "Uncharted: Legacy of Thieves (PS5)", b: 25000 },
             { n: "Watch Dogs Legion Gold (PS4/PS5)", b: 17300 },
             { n: "Yakuza Kiwami (PS4)", b: 16400 }
         ];
 
         let carrito = [];
 
-        function calcularPrecio(base) {
-            const aumento = (base > 13000) ? 1000 : 2000;
-            return base + aumento;
+        function calcularPrecioFinal(base) {
+            const margen = (base > 13000) ? 1000 : 2000;
+            return base + margen;
         }
 
         function actualizarPantalla() {
             const busqueda = document.getElementById('busqueda').value.toLowerCase();
-            const orden = document.getElementById('ordenar').value;
+            const criterioOrden = document.getElementById('ordenar').value;
             const grid = document.getElementById('grid-productos');
             
-            let filtrados = todoElCatalogo.filter(item => item.n.toLowerCase().includes(busqueda));
+            let filtrados = catalogoCompleto.filter(prod => 
+                prod.n.toLowerCase().includes(busqueda)
+            );
 
-            // Filtros de Consola
-            if (orden === "ps4") {
-                filtrados = filtrados.filter(item => item.n.toUpperCase().includes("PS4"));
-            } else if (orden === "ps5") {
-                filtrados = filtrados.filter(item => item.n.toUpperCase().includes("PS5"));
+            // Filtro por Consola
+            if (criterioOrden === "ps4") {
+                filtrados = filtrados.filter(p => p.n.toUpperCase().includes("PS4"));
+            } else if (criterioOrden === "ps5") {
+                filtrados = filtrados.filter(p => p.n.toUpperCase().includes("PS5"));
             }
 
-            // Orden de Precio
-            if (orden === "menor") {
-                filtrados.sort((a, b) => calcularPrecio(a.b) - calcularPrecio(b.b));
-            } else if (orden === "mayor") {
-                filtrados.sort((a, b) => calcularPrecio(b.b) - calcularPrecio(a.b));
+            // Orden por Precio
+            if (criterioOrden === "menor") {
+                filtrados.sort((a, b) => calcularPrecioFinal(a.b) - calcularPrecioFinal(b.b));
+            } else if (criterioOrden === "mayor") {
+                filtrados.sort((a, b) => calcularPrecioFinal(b.b) - calcularPrecioFinal(a.b));
             }
 
+            // Limpiar y Renderizar
             grid.innerHTML = "";
+            
+            if (filtrados.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                    <i class="fa-solid fa-face-frown fa-3x" style="color: var(--primary); margin-bottom: 20px;"></i>
+                    <h2>No encontramos ese juego, Matías. ¡Probá con otro nombre!</h2>
+                </div>`;
+                return;
+            }
+
             filtrados.forEach(item => {
-                const final = calcularPrecio(item.b);
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
+                const precioFinal = calcularPrecioFinal(item.b);
+                const tarjeta = document.createElement('div');
+                tarjeta.className = 'card';
+                tarjeta.innerHTML = `
                     <div class="game-title">${item.n}</div>
-                    <div class="price-tag"><span class="price">$${final.toLocaleString('es-AR')}</span></div>
-                    <button class="add-btn" onclick="agregarAlCarrito('${item.n}', ${final})">Agregar al Carrito</button>
+                    <div class="price-wrapper">
+                        <div style="font-size: 0.8rem; color: #aaa; margin-bottom: 5px;">Precio Final:</div>
+                        <div class="price">$${precioFinal.toLocaleString('es-AR')}</div>
+                    </div>
+                    <button class="add-btn" onclick="agregarAlCarrito('${item.n}', ${precioFinal})">
+                        <i class="fa-solid fa-cart-plus"></i> AGREGAR AL CARRITO
+                    </button>
                 `;
-                grid.appendChild(card);
+                grid.appendChild(tarjeta);
             });
         }
 
         function agregarAlCarrito(nombre, precio) {
             carrito.push({ nombre, precio });
             document.getElementById('cart-count').innerText = carrito.length;
+            
+            // Animación pequeña al botón
+            const btn = event.target;
+            const textoOriginal = btn.innerHTML;
+            btn.innerHTML = "¡AGREGADO! ✓";
+            btn.style.background = "var(--accent)";
+            btn.style.color = "#000";
+            setTimeout(() => {
+                btn.innerHTML = textoOriginal;
+                btn.style.background = "";
+                btn.style.color = "";
+            }, 1000);
         }
 
         function verCarrito() {
             const modal = document.getElementById('cart-modal');
             const lista = document.getElementById('lista-carrito');
-            const totalTxt = document.getElementById('total-modal');
+            const totalDisplay = document.getElementById('total-modal');
+            
             lista.innerHTML = "";
-            let total = 0;
-            carrito.forEach(i => {
-                total += i.precio;
-                lista.innerHTML += `<div class="cart-item"><span>${i.nombre}</span> <span>$${i.precio.toLocaleString('es-AR')}</span></div>`;
-            });
-            totalTxt.innerText = "Total: $" + total.toLocaleString('es-AR');
+            let totalAcumulado = 0;
+            
+            if (carrito.length === 0) {
+                lista.innerHTML = "<p style='text-align:center;'>Tu carrito está vacío.</p>";
+                totalDisplay.innerText = "$0";
+            } else {
+                carrito.forEach((prod, index) => {
+                    totalAcumulado += prod.precio;
+                    lista.innerHTML += `
+                        <div class="cart-item">
+                            <div>
+                                <strong style="display:block;">${prod.nombre}</strong>
+                                <span style="color: var(--primary);">$${prod.precio.toLocaleString('es-AR')}</span>
+                            </div>
+                            <i class="fa-solid fa-trash-can" style="color: #ff4444; cursor: pointer;" onclick="eliminarDelCarrito(${index})"></i>
+                        </div>
+                    `;
+                });
+                totalDisplay.innerText = "Total: $" + totalAcumulado.toLocaleString('es-AR');
+            }
+            
             modal.style.display = "block";
             document.body.style.overflow = "hidden";
         }
 
+        function eliminarDelCarrito(index) {
+            carrito.splice(index, 1);
+            document.getElementById('cart-count').innerText = carrito.length;
+            verCarrito();
+        }
+
         function mostrarPago() {
-            if (carrito.length === 0) return;
+            if (carrito.length === 0) {
+                alert("Primero agrega algo al carrito.");
+                return;
+            }
             cerrarModal('cart-modal');
             document.getElementById('payment-modal').style.display = "block";
         }
@@ -450,9 +580,12 @@
             document.body.style.overflow = "auto";
         }
 
-        document.getElementById('busqueda').addEventListener('input', actualizarPantalla);
-        
-        // Carga inicial
+        // Permitir búsqueda en tiempo real además del botón Filtrar
+        document.getElementById('busqueda').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') actualizarPantalla();
+        });
+
+        // Carga inicial de productos
         actualizarPantalla();
     </script>
 </body>
