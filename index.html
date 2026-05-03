@@ -67,11 +67,46 @@
             margin: 40px 0 20px 0;
         }
 
-        .grid-productos {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
-        }
+       /* Esto fuerza a que siempre haya varias columnas, incluso en celu */
+.grid-productos {
+    display: grid;
+    /* Usamos 140px como mínimo para que entren al menos 2 o 3 columnas en el celu */
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+    gap: 10px;
+    padding: 10px;
+}
+
+/* Ajustes para las tarjetas en pantallas chicas */
+@media (max-width: 600px) {
+    .card {
+        padding: 10px;
+    }
+    .card h3 {
+        font-size: 0.8rem; /* Texto más chico para que no ocupe tanto espacio */
+        height: 40px;
+    }
+    .precio {
+        font-size: 1.1rem;
+    }
+    .btn-add {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+    .logo {
+        font-size: 1.5rem;
+    }
+}
+
+/* Ajuste del Carrito para que no tape toda la pantalla en el celu */
+.modal-content {
+    background: #111;
+    margin: 10% auto;
+    padding: 15px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    border: 2px solid var(--principal);
+}
 
         .card {
             background: #1a1a1a;
