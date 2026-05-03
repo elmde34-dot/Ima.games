@@ -289,8 +289,21 @@
         ["RE: Revelations Bundle (PS4/PS5)", 9800], 
         ["The Division 2 (PS4/PS5)", 16500], 
         ["Resident Evil 4 Remake (PS4/PS5)", 16600], 
-        ["The Binding Of Isaac Repentance (PS4/PS5)", 30000]
-    ];
+        ["The Binding Of Isaac Repentance (PS4/PS5)", 30000],
+        [ "red dead 2 sec ps4/ps5 (px)", 7500],
+        ["Red Dead 2 pri (PS4/PS5px)", 18000], 
+        ["red dead 1 y 2 (PS4/PS5px)", 86000] ,
+        [ "f1 25 ps5 px", 80000] ,
+        ["f1 24 ps4/ps5 px", 36000] ,
+        ["resident evil 7 primaria(PS4/PS5)px", 15000] ,
+        ["resident evil 7 secundaria(PS4/PS5)px", 7500] ,
+        ["mafia trilogy primaria(PS4/PS5)px", 8000] ,
+        ["mafia trilogy secundaria(PS4/PS5)px", 7500] ,
+        ["tthe forest primaria(PS4/PS5)px", 11000] ,
+        ["the forest secundaria(PS4/PS5)px", 3500] 
+        
+
+     ];
 
     const plusBase = [
         ["PS Plus Essential - 1 MES (Español)", 12500], ["PS Plus Essential - 3 MESES (Español)", 25000], ["PS Plus Essential - 12 MESES (Español)", 65000],
@@ -369,7 +382,11 @@
         document.querySelectorAll('.card').forEach(card => {
             card.style.display = card.getAttribute('data-nombre').includes(term) ? 'flex' : 'none';
         });
+        
     }
+
+        
+    
 function finalizarPedido() {
     if (carrito.length === 0) return alert("El carrito está vacío");
     
@@ -386,7 +403,7 @@ function finalizarPedido() {
     
     // Copiar al portapapeles automáticamente
     navigator.clipboard.writeText(resumen).then(() => {
-        alert("¡Pedido copiado! Ahora pegalo en el chat de Instagram.");
+        alert("¡Pedido copiado! ahora se te va abrir instagram seguinos metete al chat y pega el mensaje para finalizar tu compra.");
         // Abre tu Instagram (en la app o web)
         window.open(`https://www.instagram.com/ima._.games/`);
     }).catch(err => {
