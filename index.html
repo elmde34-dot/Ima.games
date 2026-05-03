@@ -2,618 +2,560 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMA GAMES | Catálogo Oficial de Ofertas</title>
-    <!-- Bibliotecas de Iconos y Tipografía -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IMA GAMES | Store Oficial 2026</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* CONFIGURACIÓN DE VARIABLES Y ESTILO GLOBAL */
         :root {
             --primary: #a855f7;
-            --primary-glow: rgba(168, 85, 247, 0.6);
+            --primary-glow: rgba(168, 85, 247, 0.4);
             --secondary: #6b21a8;
             --accent: #22c55e;
-            --danger: #ef4444;
-            --bg-dark: #030005;
+            --bg-dark: #05010a;
             --card-bg: #0f0a15;
             --text-light: #f8fafc;
             --text-dim: #94a3b8;
-            --mp-blue: #009ee3;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-
+        /* RESET GENERAL */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body {
             background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 5% 5%, rgba(107, 33, 168, 0.15) 0%, transparent 30%),
-                radial-gradient(circle at 95% 95%, rgba(107, 33, 168, 0.15) 0%, transparent 30%);
+            background-image: radial-gradient(circle at top center, #1a0b2e 0%, var(--bg-dark) 70%);
             color: var(--text-light);
             font-family: 'Rajdhani', sans-serif;
-            line-height: 1.5;
             overflow-x: hidden;
+            line-height: 1.4;
         }
 
-        /* HEADER Y NAVEGACIÓN COMPLETA */
+        /* HEADER RESPONSIVO */
         header {
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid var(--secondary);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.3);
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.7);
+            padding: 10px 12px;
         }
 
-        .nav-wrapper {
-            max-width: 1400px;
+        .nav-container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem 5%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .logo-main {
+        .logo {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: 900;
-            color: white;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--primary-glow);
+            text-transform: uppercase;
         }
+        .logo span { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
 
-        .logo-main span { color: var(--primary); }
-
-        /* BUSCADOR Y FILTROS AVANZADOS */
-        .search-container {
-            flex-grow: 1;
-            max-width: 600px;
+        .search-wrapper {
             position: relative;
+            width: 100%;
         }
 
-        .search-container input {
+        .search-wrapper input {
             width: 100%;
-            background: #161122;
+            background: rgba(255,255,255,0.07);
             border: 1px solid var(--secondary);
-            padding: 12px 15px 12px 45px;
+            padding: 12px 15px 12px 40px;
             border-radius: 12px;
             color: white;
+            font-family: 'Rajdhani';
             font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .search-container input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        .search-container i {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary);
-        }
+        .search-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); }
 
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .cart-trigger {
-            background: var(--secondary);
+        .cart-btn {
+            background: var(--primary);
             color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.3s;
             border: none;
+            padding: 8px 14px;
+            border-radius: 10px;
             font-weight: 700;
-            position: relative;
-        }
-
-        .cart-trigger:hover { background: var(--primary); transform: scale(1.05); }
-
-        #cart-badge {
-            background: var(--accent);
-            color: black;
-            font-size: 0.8rem;
-            width: 22px;
-            height: 22px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: 900;
+            gap: 6px;
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
         }
 
-        /* SECCIÓN HERO / ANUNCIOS */
-        .hero-banner {
+        /* HERO SECTION */
+        .hero {
             text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(to bottom, rgba(168, 85, 247, 0.05), transparent);
+            padding: 40px 15px 20px;
         }
-
-        .hero-banner h1 {
+        .hero h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            margin-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            background: linear-gradient(to bottom, #fff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
             text-transform: uppercase;
         }
 
-        .hero-banner p {
-            color: var(--primary);
-            font-weight: 700;
-            letter-spacing: 5px;
-            font-size: 1.2rem;
-        }
-
-        /* GRID DE PRODUCTOS */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 5% 60px;
-        }
-
-        .product-grid {
+        /* GRID SISTEMA MÓVIL (2 columnas) */
+        .catalog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 12px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .game-card {
+        @media (min-width: 768px) {
+            .catalog-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+            .nav-container { flex-direction: row; justify-content: space-between; }
+            .search-wrapper { max-width: 450px; }
+            .hero h1 { font-size: 4rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .catalog-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* CARD DE PRODUCTO */
+        .card {
             background: var(--card-bg);
-            border: 1px solid #1e1b2e;
-            border-radius: 20px;
-            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 18px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-            overflow: hidden;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .game-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .card-tag {
+        .badge-ps5 {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--primary-glow);
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 20px;
+            top: 10px; right: 10px;
+            background: #00439c;
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 4px;
             font-weight: 900;
-            color: white;
+            font-family: 'Orbitron';
+        }
+
+        .game-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            min-height: 2.4rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin: 8px 0;
+            line-height: 1.2;
+        }
+
+        .price-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 8px;
+            text-align: center;
+            margin-top: auto;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .price-box small {
+            display: block;
+            font-size: 0.6rem;
+            color: var(--text-dim);
             text-transform: uppercase;
         }
 
-        .game-title {
-            font-family: 'Orbitron', sans-serif;
+        .price-val {
+            font-family: 'Orbitron';
+            color: var(--accent);
             font-size: 1.1rem;
-            font-weight: 700;
-            margin: 15px 0;
-            min-height: 3.5rem;
-            line-height: 1.3;
-            color: #fff;
+            font-weight: 900;
         }
 
-        .price-section {
-            background: rgba(0,0,0,0.4);
-            padding: 15px;
-            border-radius: 15px;
-            margin-top: auto;
-            text-align: center;
-        }
-
-        .price-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 5px; }
-        .price-value { font-size: 1.8rem; font-weight: 900; color: var(--accent); font-family: 'Orbitron'; }
-
-        .btn-add {
+        .buy-btn {
             width: 100%;
             background: var(--secondary);
             color: white;
             border: none;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-            font-weight: 800;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            font-family: 'Orbitron';
             cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .btn-add:hover { background: var(--accent); color: #000; }
-
-        /* MODAL CARRITO DISEÑO PREMIUM */
-        .modal-overlay {
+        /* MODAL CARRITO */
+        .cart-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(15px);
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
             z-index: 2000;
+            padding: 20px;
         }
 
-        .modal-container {
-            max-width: 500px;
-            width: 90%;
+        .modal-content {
             background: var(--card-bg);
-            margin: 50px auto;
-            border-radius: 25px;
-            border: 2px solid var(--primary);
-            padding: 30px;
-            position: relative;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px; right: 20px;
-            color: var(--text-dim);
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        .cart-items-list {
-            margin: 20px 0;
+            max-width: 450px;
+            margin: 10% auto;
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid var(--primary);
+            max-height: 80vh;
             overflow-y: auto;
-            flex-grow: 1;
-            padding-right: 10px;
         }
 
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #161122;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #25d366;
+            color: white;
             padding: 15px;
             border-radius: 12px;
-            margin-bottom: 10px;
-            border: 1px solid #2a1f3d;
-        }
-
-        .checkout-footer {
-            border-top: 2px solid #2a1f3d;
-            padding-top: 20px;
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.6rem;
             font-weight: 900;
-            margin-bottom: 20px;
-            color: var(--accent);
+            margin-top: 20px;
+            border: none;
             font-family: 'Orbitron';
         }
 
-        .btn-mp {
-            background: var(--mp-blue);
-            color: white;
-            width: 100%;
-            padding: 18px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 900;
-            cursor: pointer;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        /* FOOTER EXTENDIDO */
         footer {
-            background: #08050e;
-            padding: 60px 5% 30px;
-            margin-top: 80px;
-            border-top: 1px solid #1a1525;
-        }
-
-        .footer-grid {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col h4 { color: var(--primary); margin-bottom: 20px; font-family: 'Orbitron'; }
-        .footer-col p, .footer-col li { color: var(--text-dim); font-size: 0.9rem; list-style: none; margin-bottom: 10px; }
-
-        .legal-notice {
             text-align: center;
-            font-size: 0.75rem;
-            color: #444;
-            padding-top: 30px;
-            border-top: 1px solid #111;
+            padding: 60px 20px;
+            opacity: 0.4;
+            font-size: 0.8rem;
         }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="nav-wrapper">
-            <a href="#" class="logo-container">
-                <div class="logo-main">IMA <span>GAMES</span></div>
-            </a>
-
-            <div class="search-container">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="gameSearch" placeholder="¿Qué quieres jugar hoy?" onkeyup="filterGames()">
-            </div>
-
-            <div class="nav-actions">
-                <button class="cart-trigger" onclick="toggleCart(true)">
-                    <i class="fa-solid fa-basket-shopping"></i>
-                    MI PEDIDO
-                    <span id="cart-badge">0</span>
+        <div class="nav-container">
+            <div class="nav-top">
+                <div class="logo">IMA <span>GAMES</span></div>
+                <button class="cart-btn" onclick="toggleCart(true)">
+                    <i class="fa-solid fa-cart-shopping"></i> <span id="count">0</span>
                 </button>
+            </div>
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search" placeholder="Buscar entre +140 juegos..." onkeyup="filterGames()">
             </div>
         </div>
     </header>
 
-    <div class="hero-banner">
-        <p>EDICIÓN LIMITADA 2026</p>
-        <h1>Ofertas Día del Niño</h1>
-        <div style="margin-top: 20px; color: var(--text-dim);">Válido hasta el 06 de Mayo</div>
+    <div class="hero">
+        <p>Edición Limitada 2026</p>
+        <h1>DÍA DEL NIÑO</h1>
+        <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 5px;">Válido hasta el 06 de Mayo</div>
     </div>
 
-    <div class="container">
-        <div id="productGrid" class="product-grid">
-            <!-- Los juegos se cargan vía JavaScript -->
-        </div>
-    </div>
+    <main class="catalog-grid" id="container"></main>
 
-    <!-- MODAL DE CARRITO -->
-    <div id="cartModal" class="modal-overlay" onclick="handleOverlayClick(event)">
-        <div class="modal-container">
-            <i class="fa-solid fa-xmark close-modal" onclick="toggleCart(false)"></i>
-            <h2 style="font-family: 'Orbitron'; color: #fff;">Confirmar Pedido</h2>
-            
-            <div id="cartList" class="cart-items-list">
-                <!-- Items agregados -->
+    <div id="cartModal" class="cart-modal">
+        <div class="modal-content">
+            <h2 style="font-family: 'Orbitron'; margin-bottom: 20px;">TU PEDIDO</h2>
+            <div id="cartList"></div>
+            <div style="margin-top: 20px; font-size: 1.5rem; font-family: 'Orbitron'; color: var(--accent); display: flex; justify-content: space-between;">
+                <span>TOTAL</span>
+                <span id="total">$0</span>
             </div>
-
-            <div class="checkout-footer">
-                <div class="total-row">
-                    <span>TOTAL:</span>
-                    <span id="cartTotal">$0</span>
-                </div>
-                
-                <div style="background: rgba(34, 197, 94, 0.1); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--accent);">
-                    <p style="font-size: 0.85rem; color: var(--accent); text-align: center;">
-                        <i class="fa-solid fa-shield-halved"></i> 
-                        Transferencia segura vía Mercado Pago (Alias: <strong>matiascr13</strong>)
-                    </p>
-                </div>
-
-                <button class="btn-mp" onclick="processCheckout()">
-                    <i class="fa-solid fa-bolt"></i>
-                    REALIZAR COMPRA
-                </button>
-            </div>
+            <button class="checkout-btn" onclick="sendWhatsApp()">ENVIAR A WHATSAPP</button>
+            <button onclick="toggleCart(false)" style="background:none; color:#777; border:none; width:100%; margin-top:15px; cursor:pointer;">Seguir Comprando</button>
         </div>
     </div>
 
     <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>IMA GAMES</h4>
-                <p>Líderes en distribución digital de videojuegos en Formosa y todo el país.</p>
-            </div>
-            <div class="footer-col">
-                <h4>SOPORTE</h4>
-                <ul>
-                    <li>Cómo comprar</li>
-                    <li>Garantía de cuenta</li>
-                    <li>Contacto WhatsApp</li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>HORARIOS</h4>
-                <p>Lunes a Sábado<br>09:00 - 22:00</p>
-            </div>
-        </div>
-        <div class="legal-notice">
-            <p>© 2026 IMA GAMES - Formosa, Argentina. Todos los derechos reservados.</p>
-            <p>Los precios mostrados corresponden a Cuentas Primarias. Consultar disponibilidad para secundarias.</p>
-        </div>
+        IMA GAMES | © 2026<br>
+        Formosa, Argentina. Todos los derechos reservados.
     </footer>
 
     <script>
-        // BASE DE DATOS MASIVA DE JUEGOS
-        const rawDatabase = [
-            ["A Quiet Place: The Road Ahead (PS5)", 12100], ["Age Of Empires II: Definitive Edition (PS5)", 28200],
-            ["Alan Wake 2 (PS5)", 20100], ["Alan Wake Remastered", 6900], ["Alien: Isolation - The Collection", 10200],
-            ["Assassin's Creed Odyssey: Deluxe", 18300], ["Assassin's Creed Origins: Deluxe", 13100],
-            ["Assassin's Creed Rogue Remastered", 11100], ["Assassin's Creed Valhalla: Deluxe", 20900],
-            ["Assassin's Creed Valhalla: Ragnarök", 25900], ["Assassin's Creed® Odyssey Edición Gold", 22000],
-            ["Batman™: Arkham Knight", 8400], ["Battlefield 4™", 8400], ["Battlefield™ 1", 8400],
-            ["Battlefield™ 2042 (PS4)", 14500], ["Battlefield™ 2042 (PS5)", 16400], ["Battlefield™ V", 14500],
-            ["Blasphemous", 8600], ["Bloodborne™", 12100], ["Bully", 11100], ["Crash Bandicoot™ - Lote Crashiversary", 16200],
-            ["Crash Bandicoot™ - Lote Quadrilogy", 13300], ["Dakar 18", 6300], ["Dark Souls™ II: Scholar", 20900],
-            ["Dark Souls™ III", 30300], ["Dark Souls™ III - Deluxe", 44600], ["Dark Souls™: Remastered", 20900],
-            ["Dead By Daylight", 14500], ["Death Stranding Director’s (PS5)", 20900], ["Demon Slayer - Hinokami Chronicles 2", 38100],
-            ["Descenders", 9800], ["Detroit: Become Human", 12100], ["Deus Ex: Mankind Divided - Lujo", 9000],
-            ["DiRT 5 Year One Edition", 20900], ["DiRT Rally 2.0", 17300], ["Dragon Age™: Inquisition GOTY", 12100],
-            ["Dragon Ball FighterZ", 16700], ["Dragon Ball Z: Kakarot Daima Edition", 35200], ["Dragon's Dogma 2 (PS5)", 30300],
-            ["Dynasty Warriors 9", 14500], ["EA Sports FC™ 26 (PS4)", 30000], ["EA Sports FC™ 26 (PS5)", 25000],
-            ["Evil West", 17300], ["Fallout 4: GOTY", 18300], ["Far Cry 5", 11100], ["Far Cry® 3 Edición Classic", 9800],
-            ["Far Cry® 4", 8400], ["Far Cry® 4 Gold Edition", 13100], ["Far Cry® 6 Deluxe Edition", 9400],
-            ["Far Cry® 6 Gold Edition", 10100], ["Far Cry® Primal", 9800], ["Far Cry® Primal - Apex", 10900],
-            ["Final Fantasy VII Rebirth Deluxe (PS5)", 44600], ["Five Nights At Freddy's: Security Breach", 30300],
-            ["Ghost Of Tsushima: Director (PS4)", 20900], ["Ghost Of Tsushima: Director (PS5)", 30300],
-            ["God Of War (2018)", 12100], ["Gran Turismo® 7", 39600], ["It Takes Two + A Way Out", 20900],
-            ["Hitman World Of Assassination - Deluxe", 44600], ["Hollow Knight: Silksong", 18300],
-            ["Horizon Zero Dawn: Complete", 20900], ["Just Cause 3", 7400], ["Just Cause 4 - Complete", 19700],
-            ["Just Dance 2026 Edition Deluxe (PS5)", 35200], ["LEGO® Batman™ 3", 7400], ["LEGO® City Undercover", 7500],
-            ["LEGO® El Hobbit™", 7400], ["LEGO® Marvel Super Heroes 2 Deluxe", 9200], ["LEGO® Marvel’s Avengers Deluxe", 8400],
-            ["LEGO® Star Wars™: Saga Skywalker", 18300], ["Life Is Strange Remastered Collection", 5100],
-            ["Life Is Strange: True Colors", 20100], ["Like A Dragon: Ishin!", 14500], ["Little Nightmares I Y II", 17300],
-            ["Little Nightmares II Deluxe", 14500], ["Mad Max", 7400], ["Manhunt", 11200],
-            ["Spider-Man: Miles Morales Definitiva (PS5)", 32600], ["Metal Gear Solid Δ: Snake Eater (PS5)", 44200],
-            ["Middle-Earth™: Shadow Bundle", 9200], ["Monster Energy Supercross 4", 5500], ["Monster Hunter Rise + Sunbreak", 19700],
-            ["Mortal Kombat: Legacy Kollection", 35200], ["Naruto Shippuden: Storm Legacy", 30300],
-            ["Need For Speed™ Heat", 8400], ["Ninja Gaiden: Master Collection", 20900], ["Nioh 3 (PS5)", 57900],
-            ["Overcooked! + Overcooked! 2", 10900], ["Persona 5 Royal (PS5)", 20100], ["Predator: Hunting Grounds", 12100],
-            ["Resident Evil 4 Gold Edition", 20900], ["Resident Evil Village", 17300], ["Silent Hill 2 Deluxe (PS5)", 39600],
-            ["Sonic X Shadow Generations", 20900], ["South Park™: Fractured But Whole Gold", 17300],
-            ["Spyro™ Reignited Trilogy", 16400], ["Tekken 7 - Edición Definitiva", 20900], ["The Crew® 2 Gold", 17300],
-            ["The Last Of Us Part II Deluxe (PS4)", 30300], ["Tony Hawk's™ 1 + 2", 6800], ["UFC™ 5 Definitiva (PS5)", 17300],
-            ["Uncharted The Nathan Drake Collection", 9500], ["Watch Dogs: Legion - Gold", 17300], ["Wo Long: Fallen Dynasty", 25900],
-            ["WWE 2K26 Attitude Era (PS5)", 116500], ["Yakuza Kiwami", 16400], ["Zombie Army Trilogy", 9800]
+        // BASE DE DATOS ACTUALIZADA CON TODOS LOS JUEGOS (SIN DUPLICADOS)
+        const rawGames = [
+            ["A Quiet Place: The Road Ahead (PS5)", 12100],
+            ["Age Of Empires II: Definitive Edition (PS5)", 28200],
+            ["Alan Wake 2 (PS5)", 20100],
+            ["Alan Wake Remastered", 6900],
+            ["Alien: Isolation - The Collection", 10200],
+            ["Assassin's Creed Odyssey: Deluxe", 18300],
+            ["Assassin's Creed Origins: Deluxe", 13100],
+            ["Assassin's Creed Rogue Remastered", 11100],
+            ["Assassin's Creed Valhalla: Deluxe", 20900],
+            ["Assassin's Creed Valhalla: Ragnarök", 25900],
+            ["Assassin's Creed® Odyssey Edición Gold", 22000],
+            ["Batman™: Arkham Knight", 8400],
+            ["Battlefield 4™", 8400],
+            ["Battlefield™ 1", 8400],
+            ["Battlefield™ 2042 (PS4)", 14500],
+            ["Battlefield™ 2042 (PS5)", 16400],
+            ["Battlefield™ V", 14500],
+            ["Blasphemous", 8600],
+            ["Bloodborne™", 12100],
+            ["Bully", 11100],
+            ["Crash Bandicoot™ - Lote Crashiversary", 16200],
+            ["Crash Bandicoot™ - Lote Quadrilogy", 13300],
+            ["Dakar 18", 6300],
+            ["Dark Souls™ II: Scholar Of The First Sin", 20900],
+            ["Dark Souls™ III", 30300],
+            ["Dark Souls™ III - Deluxe Edition", 44600],
+            ["Dark Souls™: Remastered", 20900],
+            ["Dead By Daylight", 14500],
+            ["Death Stranding Director’s Cut (PS5)", 20900],
+            ["Demon Slayer - Hinokami Chronicles 2", 38100],
+            ["Descenders", 9800],
+            ["Detroit: Become Human", 12100],
+            ["Deus Ex: Mankind Divided - Lujo", 9000],
+            ["DiRT 5 Year One Edition", 20900],
+            ["DiRT Rally 2.0", 17300],
+            ["Dragon Age™: Inquisition GOTY", 12100],
+            ["Dragon Ball FighterZ", 16700],
+            ["Dragon Ball Z: Kakarot Daima Edition", 35200],
+            ["Dragon's Dogma 2 (PS5)", 30300],
+            ["Dynasty Warriors 9", 14500],
+            ["EA Sports FC™ 26 (PS4)", 30000],
+            ["EA Sports FC™ 26 (PS5)", 25000],
+            ["Evil West", 17300],
+            ["Fallout 4: Game Of The Year Edition", 18300],
+            ["Far Cry 5", 11100],
+            ["Far Cry® 3 Edición Classic", 9800],
+            ["Far Cry® 4", 8400],
+            ["Far Cry® 4 Gold Edition", 13100],
+            ["Far Cry® 6 Deluxe Edition", 9400],
+            ["Far Cry® 6 Gold Edition", 10100],
+            ["Far Cry® Primal", 9800],
+            ["Far Cry® Primal - Apex Edition", 10900],
+            ["Final Fantasy VII Rebirth Deluxe (PS5)", 44600],
+            ["Five Nights At Freddy's: Security Breach", 30300],
+            ["Ghost Of Tsushima: Versión Director (PS4)", 20900],
+            ["Ghost Of Tsushima: Versión Director (PS5)", 30300],
+            ["God Of War (2018)", 12100],
+            ["Gran Turismo® 7", 39600],
+            ["It Takes Two + A Way Out", 20900],
+            ["Hitman World Of Assassination Deluxe", 44600],
+            ["Hollow Knight: Silksong", 18300],
+            ["Horizon Zero Dawn: Complete Edition", 20900],
+            ["Just Cause 3", 7400],
+            ["Just Cause 4 - Complete Edition", 19700],
+            ["Just Dance 2026 Edition Deluxe (PS5)", 35200],
+            ["LEGO® Batman™ 3: Más Allá De Gotham", 7400],
+            ["LEGO® City Undercover", 7500],
+            ["LEGO® El Hobbit™", 7400],
+            ["LEGO® Marvel Super Heroes 2 Deluxe", 9200],
+            ["LEGO® Marvel’s Avengers Deluxe Edition", 8400],
+            ["LEGO® Star Wars™: La Saga Skywalker", 18300],
+            ["Life Is Strange Remastered Collection", 5100],
+            ["Life Is Strange: True Colors", 20100],
+            ["Like A Dragon: Ishin!", 14500],
+            ["Little Nightmares I Y II", 17300],
+            ["Little Nightmares II Edición Deluxe", 14500],
+            ["Mad Max", 7400],
+            ["Manhunt", 11200],
+            ["Spider-Man: Miles Morales Definitiva (PS5)", 32600],
+            ["Metal Gear Solid Δ: Snake Eater (PS5)", 44200],
+            ["Middle-Earth™: The Shadow Bundle", 9200],
+            ["Monster Energy Supercross 4", 5500],
+            ["Monster Energy Supercross 4 Special", 7400],
+            ["Monster Hunter Rise + Sunbreak Deluxe", 19700],
+            ["Monster Hunter Rise Deluxe Edition", 16400],
+            ["Monster Hunter World: Iceborne Master", 18300],
+            ["Mortal Kombat X", 7400],
+            ["Mortal Kombat: Legacy Kollection", 35200],
+            ["Moving Out + Moving Out 2 Bundle", 20100],
+            ["My Hero One's Justice 2", 12100],
+            ["My Hero One's Justice 2 Ultimate", 20900],
+            ["Naruto Shippuden: Ninja Storm Legacy", 30300],
+            ["Need For Speed™ Edición Deluxe", 9800],
+            ["Need For Speed™ Heat", 8400],
+            ["Need For Speed™ Payback", 8400],
+            ["Need For Speed™ Rivals: Edición Completa", 8400],
+            ["Ninja Gaiden: Master Collection", 20900],
+            ["Nioh 3 (PS5)", 57900],
+            ["Overcooked", 5900],
+            ["Overcooked! + Overcooked! 2", 10900],
+            ["Persona 5 Royal (PS5)", 20100],
+            ["Persona® 5 Royal Ultimate Edition", 20100],
+            ["Phoenix Wright: Ace Attorney Trilogy", 12100],
+            ["Plants Vs. Zombies™: Neighborville", 10200],
+            ["Predator: Hunting Grounds", 12100],
+            ["Prince Of Persia™: The Lost Crown Complete", 20900],
+            ["Raccoon City Edition", 17300],
+            ["Reanimal (PS5)", 34300],
+            ["Resident Evil 2", 15000],
+            ["Resident Evil 4 Gold Edition", 20900],
+            ["Resident Evil 7 Biohazard", 12100],
+            ["Resident Evil Revelations 1 & 2 Bundle", 9800],
+            ["Resident Evil Triple Pack", 15000],
+            ["Resident Evil Village", 17300],
+            ["Resident Evil: Deluxe Origins Bundle", 12100],
+            ["Silent Hill 2 Deluxe Edition (PS5)", 39600],
+            ["Silent Hill F - Deluxe Edition (PS5)", 39600],
+            ["Skater XL", 30300],
+            ["Sonic Frontiers", 20100],
+            ["Sonic Racing: Crossworlds Deluxe", 53900],
+            ["Sonic X Shadow Generations", 20900],
+            ["South Park™: Fractured But Whole Gold", 17300],
+            ["Spyro™ Reignited Trilogy", 16400],
+            ["Stranded Deep", 12100],
+            ["Street Fighter 30th Anniversary", 12100],
+            ["Street Fighter V", 12100],
+            ["Tekken 7", 12100],
+            ["Tekken 7 - Edición Definitiva", 20900],
+            ["The Crew® 2 Gold Edition", 17300],
+            ["The Last Guardian", 12100],
+            ["The Last Of Us Part II Deluxe (PS4)", 30300],
+            ["The Quarry - Edición Deluxe", 14500],
+            ["The Warriors®", 11100],
+            ["Titanfall™ 2 Standard", 7400],
+            ["Tom Clancy's Ghost Recon® Breakpoint", 14500],
+            ["Tom Clancy's Ghost Recon® Breakpoint Ultimate", 25900],
+            ["Tomb Raider: Survivor Trilogy", 9800],
+            ["Tony Hawk's™ Pro Skater™ 1 + 2", 6800],
+            ["UFC™ 5 Edición Definitiva (PS5)", 17300],
+            ["Uncharted The Nathan Drake Collection", 9500],
+            ["Unravel Yarny Bundle", 4500],
+            ["Watch Dogs: Legion - Deluxe Edition", 13100],
+            ["Watch Dogs: Legion - Gold Edition", 17300],
+            ["Watch_Dogs™ Complete Edition", 8400],
+            ["Wo Long: Fallen Dynasty", 25900],
+            ["World War Z: Aftermath", 18300],
+            ["World War Z: Aftermath Deluxe Edition", 20900],
+            ["WRC 10 FIA World Rally (PS4)", 9800],
+            ["WRC 10 FIA World Rally (PS5)", 11100],
+            ["WWE 2K26 Attitude Era Edition (PS5)", 116500],
+            ["WWE 2K26 King Of Kings Edition (PS5)", 83600],
+            ["XCOM® 2 Digital Deluxe Edition", 9800],
+            ["Yakuza Kiwami", 16400],
+            ["Yakuza Kiwami 2", 16400],
+            ["Yakuza: Like A Dragon Hero Edition", 12100],
+            ["Zombie Army Trilogy", 9800]
         ];
 
         let cart = [];
 
-        // SISTEMA DE CÁLCULO SEGÚN REGLAS DE NEGOCIO
-        function calculateFinalPrice(basePrice) {
-            const commission = (basePrice <= 13000) ? 2000 : 1000;
-            return basePrice + commission;
+        // REGLA DE NEGOCIO: +2000 SI ES <= 13000 | +1000 SI ES > 13000
+        function getFinalPrice(base) {
+            return base + (base <= 13000 ? 2000 : 1000);
         }
 
-        // RENDERIZADO DEL CATÁLOGO
-        function renderDatabase(searchQuery = "") {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = "";
-
-            const filtered = rawDatabase.filter(item => 
-                item[0].toLowerCase().includes(searchQuery.toLowerCase())
-            );
+        function renderGames(filter = "") {
+            const container = document.getElementById('container');
+            container.innerHTML = "";
+            
+            const filtered = rawGames.filter(g => g[0].toLowerCase().includes(filter.toLowerCase()));
 
             filtered.forEach(game => {
-                const finalPrice = calculateFinalPrice(game[1]);
-                const isPS5 = game[0].includes("PS5");
+                const final = getFinalPrice(game[1]);
+                const isPS5 = game[0].includes("(PS5)");
                 
-                const card = document.createElement('div');
-                card.className = 'game-card';
-                card.innerHTML = `
-                    <span class="card-tag">${isPS5 ? 'Next-Gen' : 'Digital'}</span>
-                    <div class="game-title">${game[0]}</div>
-                    <div class="price-section">
-                        <div class="price-label">Precio Final Primaria</div>
-                        <div class="price-value">$${finalPrice.toLocaleString('es-AR')}</div>
-                    </div>
-                    <button class="btn-add" onclick="addToCart('${game[0]}', ${finalPrice})">
-                        AGREGAR AL PEDIDO
-                    </button>
-                `;
-                grid.appendChild(card);
+                container.innerHTML += `
+                    <div class="card">
+                        ${isPS5 ? '<div class="badge-ps5">PS5</div>' : ''}
+                        <div class="game-name">${game[0]}</div>
+                        <div class="price-box">
+                            <small>Precio Final Primaria</small>
+                            <div class="price-val">$${final.toLocaleString('es-AR')}</div>
+                        </div>
+                        <button class="buy-btn" onclick="addToCart('${game[0]}', ${final})">AGREGAR</button>
+                    </div>`;
             });
         }
 
-        // LÓGICA DEL CARRITO
         function addToCart(name, price) {
-            cart.push({ name, price });
-            updateCartUI();
+            cart.push({name, price});
+            document.getElementById('count').innerText = cart.length;
             
-            // Animación de feedback
+            // Efecto visual rápido
             const btn = event.target;
-            btn.innerHTML = "¡AGREGADO! ✓";
+            btn.innerText = "¡AGREGADO!";
             btn.style.background = "var(--accent)";
             setTimeout(() => {
-                btn.innerHTML = "AGREGAR AL PEDIDO";
+                btn.innerText = "AGREGAR";
                 btn.style.background = "var(--secondary)";
-            }, 1000);
+            }, 700);
         }
 
-        function updateCartUI() {
-            document.getElementById('cart-badge').innerText = cart.length;
-            const list = document.getElementById('cartList');
-            const totalDisplay = document.getElementById('cartTotal');
-            
-            list.innerHTML = "";
-            let total = 0;
-
-            cart.forEach((item, index) => {
-                total += item.price;
-                list.innerHTML += `
-                    <div class="cart-item">
-                        <div style="max-width: 70%">
-                            <div style="font-weight: 700; font-size: 0.9rem;">${item.name}</div>
-                            <div style="color: var(--primary); font-size: 0.8rem;">$${item.price.toLocaleString('es-AR')}</div>
-                        </div>
-                        <i class="fa-solid fa-trash" style="color: var(--danger); cursor:pointer" onclick="removeItem(${index})"></i>
-                    </div>
-                `;
-            });
-
-            totalDisplay.innerText = "$" + total.toLocaleString('es-AR');
+        function toggleCart(show) {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = show ? 'block' : 'none';
+            if(show) {
+                const list = document.getElementById('cartList');
+                let total = 0;
+                list.innerHTML = "";
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    list.innerHTML += `
+                        <div class="cart-item">
+                            <span style="font-size:0.8rem; max-width:70%">${item.name}</span>
+                            <div style="display:flex; align-items:center; gap:10px">
+                                <span style="font-weight:bold; color:var(--accent)">$${item.price.toLocaleString()}</span>
+                                <i class="fa-solid fa-trash" style="color:red; cursor:pointer" onclick="removeItem(${index})"></i>
+                            </div>
+                        </div>`;
+                });
+                document.getElementById('total').innerText = "$" + total.toLocaleString('es-AR');
+            }
         }
 
         function removeItem(index) {
             cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        // MODAL Y NAVEGACIÓN
-        function toggleCart(show) {
-            const modal = document.getElementById('cartModal');
-            modal.style.display = show ? 'block' : 'none';
-            document.body.style.overflow = show ? 'hidden' : 'auto';
-        }
-
-        function handleOverlayClick(e) {
-            if (e.target.id === 'cartModal') toggleCart(false);
+            document.getElementById('count').innerText = cart.length;
+            toggleCart(true);
         }
 
         function filterGames() {
-            const query = document.getElementById('gameSearch').value;
-            renderDatabase(query);
+            const val = document.getElementById('search').value;
+            renderGames(val);
         }
 
-        function processCheckout() {
-            if (cart.length === 0) {
-                alert("Tu pedido está vacío.");
-                return;
-            }
-            
-            let message = "Hola IMA GAMES, quiero comprar estos juegos:\n\n";
+        function sendWhatsApp() {
+            if(cart.length === 0) return alert("El carrito está vacío");
+            let message = "¡Hola IMA GAMES! Quiero comprar estos juegos:\n\n";
             cart.forEach(i => message += `• ${i.name} ($${i.price.toLocaleString()})\n`);
-            message += `\nTotal: ${document.getElementById('cartTotal').innerText}`;
+            message += `\nTotal: ${document.getElementById('total').innerText}`;
+            message += "\n\n¿Me pasan los datos para transferir?";
             
-            const encoded = encodeURIComponent(message);
-            window.location.href = `https://wa.me/5493704862044?text=${encoded}`;
+            const link = `https://wa.me/5493704862044?text=${encodeURIComponent(message)}`;
+            window.location.href = link;
         }
 
         // INICIALIZACIÓN
-        document.addEventListener('DOMContentLoaded', () => {
-            renderDatabase();
-        });
+        renderGames();
     </script>
 </body>
 </html>
