@@ -207,17 +207,21 @@
         }
 
         .btn-finalizar {
-            background: #25d366;
-            color: white;
-            width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 25px;
-        }
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: white;
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
 
         .metodo-pago {
             background: #222;
@@ -236,6 +240,7 @@
         <input type="text" id="buscador" placeholder="¿Qué juego buscas hoy?" onkeyup="filtrar()">
     </div>
 </header>
+
 
 <div class="container">
     <h2 class="section-title"><i class="fas fa-star"></i> OFERTAS DÍA DEL NIÑO</h2>
@@ -349,10 +354,15 @@
         document.getElementById('cart-total').innerText = `$${total.toLocaleString()}`;
     }
 
-    function toggleCart() {
-        const m = document.getElementById('modal-cart');
-        m.style.display = m.style.display === 'block' ? 'none' : 'block';
+   function toggleCart() {
+    const m = document.getElementById('modal-cart');
+    // Si lo mostramos, usamos flex para que se centre
+    if (m.style.display === 'flex') {
+        m.style.display = 'none';
+    } else {
+        m.style.display = 'flex';
     }
+}
 
     function filtrar() {
         const term = document.getElementById('buscador').value.toLowerCase();
@@ -360,19 +370,30 @@
             card.style.display = card.getAttribute('data-nombre').includes(term) ? 'flex' : 'none';
         });
     }
-
-    function finalizarPedido() {
-        if(carrito.length === 0) return alert("Carrito vacío");
-        let listaStr = "";
-        let total = 0;
-        carrito.forEach(i => {
-            listaStr += `${i.nombre} - $${i.precio.toLocaleString()}%0A`;
-            total += i.precio;
-        });
-        const msg = `quiero comprar estos productos:%0A${listaStr}%0ATOTAL: $${total.toLocaleString()}%0A%0AEnvío comprobante de pago realizado a matiascr13.`;
-        window.open(`https://wa.me/+5493704862044?text=${msg}`);
-    }
-
+function finalizarPedido() {
+    if (carrito.length === 0) return alert("El carrito está vacío");
+    
+    let listaStr = "";
+    let total = 0;
+    
+    carrito.forEach(item => {
+        listaStr += `- ${item.nombre} ($${item.precio.toLocaleString()})\n`;
+        total += item.precio;
+    });
+    
+    // Texto que se va a copiar al portapapeles
+    const resumen = `Hola IMA GAMES, quiero comprar estos productos:\n${listaStr}\nTOTAL: $${total.toLocaleString()}\n\nYa realicé la transferencia al alias: matiascr13.`;
+    
+    // Copiar al portapapeles automáticamente
+    navigator.clipboard.writeText(resumen).then(() => {
+        alert("¡Pedido copiado! Ahora pegalo en el chat de Instagram.");
+        // Abre tu Instagram (en la app o web)
+        window.open(`https://www.instagram.com/ima._.games/`);
+    }).catch(err => {
+        console.error('Error al copiar: ', err);
+        window.open(`https://www.instagram.com/ima._.games/`);
+    });
+}
     renderizar();
 </script>
 </body>
