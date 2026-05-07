@@ -3,78 +3,461 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página en Mantenimiento</title>
+    <title>IMA GAMES - Tienda Oficial de Juegos Digitales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
     <style>
+        :root {
+            --principal: #6a0dad; 
+            --oscuro: #0f0f0f; 
+            --texto: #ffffff;
+            --acento: #a020f0;
+            --fondo-tarjeta: #1a1a1a;
+        }
+
         body {
-            margin: 0;
-            padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
+            background-color: var(--oscuro);
+            color: var(--texto);
+            margin: 0;
+            padding-bottom: 150px;
+        }
+
+        header {
+            background-color: #000;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--principal);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--principal);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* BUSCADOR Y FILTROS */
+        .search-container { margin-top: 15px; }
+        #buscador {
+            padding: 12px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 25px;
+            border: 2px solid var(--principal);
+            background: #1a1a1a;
+            color: white;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        .category-filters {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-        }
-
-        .container {
-            max-width: 600px;
-            padding: 20px;
-        }
-
-        .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
+            gap: 10px;
+            flex-wrap: wrap;
             margin-bottom: 10px;
-            color: #2c3e50;
         }
 
-        p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #7f8c8d;
+        .filter-btn {
+            background-color: #222;
+            color: white;
+            border: 1px solid #444;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
         }
 
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 2s linear infinite;
-            margin: 20px auto;
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--principal);
+            border-color: var(--acento);
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        /* GRID DE PRODUCTOS */
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+        .grid-productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); 
+            gap: 20px;
         }
 
-        .footer {
-            margin-top: 30px;
-            font-size: 0.9rem;
-            color: #bdc3c7;
+        .card {
+            background: var(--fondo-tarjeta);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #333;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--principal);
+            box-shadow: 0 0 20px rgba(106, 13, 173, 0.4);
+        }
+
+        .card h3 { font-size: 0.95rem; margin: 10px 0; min-height: 40px; }
+        .precio { font-size: 1.4rem; color: var(--acento); font-weight: bold; margin-bottom: 10px; }
+
+        .btn-add {
+            background-color: var(--principal);
+            color: white; border: none; padding: 10px;
+            border-radius: 6px; cursor: pointer; font-weight: bold;
+        }
+
+        /* MODALES */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 10000; align-items: center; justify-content: center;
+        }
+
+        .modal-content {
+            background: #111; padding: 25px; width: 90%; max-width: 420px;
+            border-radius: 15px; border: 2px solid var(--principal); color: white;
+            position: relative;
+        }
+
+        select, input[type="email"], input[type="password"], textarea {
+            width: 100%; padding: 12px; margin: 10px 0; background: #222;
+            color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box;
+        }
+
+        .btn-finalizar {
+            background: linear-gradient(45deg, #f09433, #bc1888);
+            color: white; width: 100%; padding: 15px; border: none;
+            border-radius: 8px; font-weight: bold; cursor: pointer;
+        }
+
+        /* RESEÑAS DENTRO DEL MODAL */
+        .reviews-container {
+            background: #0a0a0a; border-radius: 8px; padding: 10px;
+            margin: 15px 0; text-align: left; border: 1px solid #222;
+        }
+
+        .review-scroll { max-height: 100px; overflow-y: auto; font-size: 0.8rem; margin-bottom: 10px; }
+        .review-item { border-bottom: 1px solid #222; padding: 5px 0; }
+        .rev-user { color: var(--principal); font-weight: bold; font-size: 0.75rem; }
+
+        /* CARRITO FLOTANTE */
+        .flotante {
+            position: fixed; bottom: 25px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 5000;
+        }
+        .cart-icon {
+            background: var(--principal); width: 65px; height: 65px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 26px;
+            cursor: pointer; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        #cart-count { position: absolute; top: 0; right: 0; background: red; font-size: 12px; padding: 3px 8px; border-radius: 50%; }
+
+        @media (max-width: 600px) { .grid-productos { grid-template-columns: 1fr 1fr; gap: 10px; } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="icon">🛠️</div>
-        <h1>Estamos mejorando</h1>
-        <p>Nuestro sitio web se encuentra actualmente en mantenimiento para brindarte una mejor experiencia. Volveremos a estar en línea muy pronto.</p>
-        
-        <div class="loader"></div>
-
-        <div class="footer">
-            &copy; 2026 Tu Empresa. Gracias por la paciencia.
-        </div>
+<header>
+    <div class="logo">IMA GAMES</div>
+    <div style="margin: 10px 0;">
+        <span id="user-info" style="font-size: 0.8rem; color: #aaa; margin-right: 10px;"></span>
+        <button id="btn-auth-header" onclick="controlAuth()" style="background:none; border:1px solid var(--principal); color:white; padding:5px 15px; border-radius:5px; cursor:pointer;">
+            Mi Cuenta
+        </button>
     </div>
+    <div class="search-container">
+        <input type="text" id="buscador" placeholder="Buscar un juego..." onkeyup="renderizar()">
+    </div>
+    <div class="category-filters">
+        <button class="filter-btn active" onclick="filtrar('all', this)">Todos</button>
+        <button class="filter-btn" onclick="filtrar('accion', this)">Acción</button>
+        <button class="filter-btn" onclick="filtrar('deportes', this)">Deportes</button>
+        <button class="filter-btn" onclick="filtrar('terror', this)">Terror</button>
+        <button class="filter-btn" onclick="filtrar('plus', this)">Plus</button>
+    </div>
+</header>
 
+<div class="container">
+    <div class="grid-productos" id="grid"></div>
+</div>
+
+<div class="flotante">
+    <a href="https://www.instagram.com/ima._.games/" target="_blank" style="text-decoration:none; background:linear-gradient(45deg,#f09433,#bc1888); color:white; padding:12px 20px; border-radius:30px; font-weight:bold; font-size:0.8rem; text-align:center;">
+        AYUDA IG
+    </a>
+    <div class="cart-icon" onclick="verCarrito()">
+        <i class="fas fa-shopping-basket"></i>
+        <span id="cart-count">0</span>
+    </div>
+</div>
+
+<div id="modal-selector" class="modal">
+    <div class="modal-content">
+        <h3 id="sel-nombre" style="margin-top:0;"></h3>
+        <p style="color:#ffd700;">⭐⭐⭐⭐⭐</p>
+        
+        <label>Elegí Consola:</label>
+        <select id="sel-consola" onchange="actualizarPrecioModal()">
+            <option value="ps4">PlayStation 4</option>
+            <option value="ps5">PlayStation 5</option>
+        </select>
+        
+        <div id="sel-precio" style="font-size: 2.2rem; color: var(--acento); font-weight: bold; margin: 10px 0;"></div>
+
+        <div class="reviews-container">
+            <p style="font-size:0.8rem; font-weight:bold; color:var(--principal); margin:0 0 5px 0;">Opiniones:</p>
+            <div id="lista-reviews-modal" class="review-scroll"></div>
+            <div id="form-review-modal"></div>
+        </div>
+
+        <button class="btn-finalizar" onclick="confirmarCompra()">AGREGAR AL CARRITO</button>
+        <button onclick="cerrarModales()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Cancelar</button>
+    </div>
+</div>
+
+<div id="modal-auth" class="modal">
+    <div class="modal-content">
+        <h2 id="auth-titulo">INICIAR SESIÓN</h2>
+        <input type="email" id="auth-email" placeholder="Correo">
+        <input type="password" id="auth-pass" placeholder="Contraseña">
+        <button class="btn-finalizar" onclick="procesarAuth()" id="auth-btn">INGRESAR</button>
+        <p id="auth-toggle" onclick="switchAuth()" style="font-size:0.8rem; color:#888; cursor:pointer; margin-top:20px;">¿No tenés cuenta? Registrate</p>
+        <button onclick="cerrarModales()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Cerrar</button>
+    </div>
+</div>
+
+<div id="modal-cart" class="modal">
+    <div class="modal-content">
+        <h2>Mi Carrito</h2>
+        <div id="cart-items" style="text-align:left; margin-bottom:20px;"></div>
+        <div id="cart-total" style="font-size:1.5rem; color:var(--acento); font-weight:bold; margin-bottom:20px;"></div>
+        <button class="btn-finalizar" onclick="irAInstagram()">PEDIR POR INSTAGRAM</button>
+        <button onclick="cerrarModales()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Volver</button>
+    </div>
+</div>
+
+<script>
+    // CONFIGURACIÓN FIREBASE (imagames-cba41)
+    const firebaseConfig = {
+        apiKey: "AIzaSyCdA-R3B5Rf9QqNBFOsg6ZAM4X2vnNbtco",
+        authDomain: "imagames-cba41.firebaseapp.com",
+        projectId: "imagames-cba41",
+        storageBucket: "imagames-cba41.firebasestorage.app",
+        messagingSenderId: "914385204626",
+        appId: "1:914385204626:web:5ad0d3b948694ee9257d4b"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // --- BASE DE DATOS MASIVA (Recuperada y Extendida) ---
+    const productos = [
+        { id: "rdr2", n: "Red Dead Redemption 2", p: 7500, c: "accion", t: "j" },
+        { id: "fc24", n: "EA SPORTS FC 24", p: 32000, c: "deportes", t: "j" },
+        { id: "gta5", n: "GTA V (Grand Theft Auto)", p: 15000, c: "accion", t: "j" },
+        { id: "f124", n: "F1 24", p: 36000, c: "deportes", t: "j" },
+        { id: "mk1", n: "Mortal Kombat 1", p: 45000, c: "accion", t: "j" },
+        { id: "re7", n: "Resident Evil 7: Biohazard", p: 7500, c: "terror", t: "j" },
+        { id: "for", n: "The Forest", p: 3500, c: "terror", t: "j" },
+        { id: "maf", n: "Mafia Trilogy", p: 7500, c: "accion", t: "j" },
+        { id: "f125", n: "F1 25 (SOLO PS5)", p: 80000, c: "deportes", t: "j" },
+        { id: "pl1", n: "PS Plus Essential - 1 MES", p: 12500, c: "plus", t: "s" },
+        { id: "pl2", n: "PS Plus Extra - 1 MES", p: 18500, c: "plus", t: "s" },
+        { id: "pl3", n: "PS Plus Deluxe - 1 MES", p: 23500, c: "plus", t: "s" },
+        { id: "cod_mw3", n: "Call of Duty: MW III", p: 55000, c: "accion", t: "j" },
+        { id: "er", n: "Elden Ring", p: 48000, c: "accion", t: "j" },
+        { id: "gow_r", n: "God of War Ragnarök", p: 42000, c: "accion", t: "j" },
+        { id: "spiderman2", n: "Marvel's Spider-Man 2", p: 52000, c: "accion", t: "j" },
+        { id: "tlou1", n: "The Last of Us Part I", p: 38000, c: "accion", t: "j" },
+        { id: "tlou2", n: "The Last of Us Part II", p: 18000, c: "accion", t: "j" },
+        { id: "hfw", n: "Horizon Forbidden West", p: 28000, c: "accion", t: "j" },
+        { id: "re4", n: "Resident Evil 4 Remake", p: 35000, c: "terror", t: "j" },
+        { id: "outlast2", n: "Outlast 2", p: 5500, c: "terror", t: "j" },
+        { id: "dbd", n: "Dead by Daylight", p: 9000, c: "terror", t: "j" },
+        { id: "nba24", n: "NBA 2K24", p: 25000, c: "deportes", t: "j" },
+        { id: "pga", n: "PGA TOUR 2K23", p: 12000, c: "deportes", t: "j" },
+        { id: "plus12", n: "PS Plus Extra - 12 MESES", p: 145000, c: "plus", t: "s" }
+        // Agregá acá más juegos si necesitás, el sistema los renderiza solos.
+    ];
+
+    let carrito = [];
+    let seleccionado = null;
+    let catFiltro = 'all';
+    let usuarioActivo = null;
+    let authMode = 'login';
+
+    // ESTADO DE USUARIO
+    auth.onAuthStateChanged(user => {
+        usuarioActivo = user;
+        const info = document.getElementById('user-info');
+        const btn = document.getElementById('btn-auth-header');
+        if (user) {
+            info.innerText = "Hola, " + user.email.split('@')[0];
+            btn.innerText = "Salir";
+        } else {
+            info.innerText = "";
+            btn.innerText = "Mi Cuenta";
+        }
+        renderizar();
+    });
+
+    function calcFinal(p) { return p >= 10000 ? p + 1000 : p + 1500; }
+
+    function renderizar() {
+        const grid = document.getElementById('grid');
+        const bus = document.getElementById('buscador').value.toLowerCase();
+        grid.innerHTML = '';
+
+        productos.forEach(p => {
+            if (catFiltro !== 'all' && p.c !== catFiltro) return;
+            if (!p.n.toLowerCase().includes(bus)) return;
+
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div style="font-size:0.7rem; color:#ffd700; margin-bottom:5px;">⭐⭐⭐⭐⭐</div>
+                <h3>${p.n}</h3>
+                <div class="precio">$${calcFinal(p.p).toLocaleString()}</div>
+                <button class="btn-add" onclick="abrirOpciones('${p.id}')">Agregar</button>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    // LÓGICA DE COMPRA Y RESEÑAS
+    function abrirOpciones(id) {
+        seleccionado = productos.find(x => x.id === id);
+        if (seleccionado.t === 's') {
+            carrito.push({ n: seleccionado.n, p: calcFinal(seleccionado.p) });
+            actualizarCarritoUI();
+            alert("Suscripción agregada!");
+        } else {
+            document.getElementById('sel-nombre').innerText = seleccionado.n;
+            document.getElementById('modal-selector').style.display = 'flex';
+            
+            // Cargar reseñas en el modal
+            cargarReseñas(id);
+            
+            // Preparar formulario de reseña opcional
+            const formContainer = document.getElementById('form-review-modal');
+            if (usuarioActivo) {
+                formContainer.innerHTML = `<textarea id="input-review-txt" placeholder="Escribí una reseña opcional del juego..."></textarea>`;
+            } else {
+                formContainer.innerHTML = `<p style="font-size:0.7rem; color:#666; text-align:center;">Iniciá sesión para opinar</p>`;
+            }
+            
+            actualizarPrecioModal();
+        }
+    }
+
+    function cargarReseñas(id) {
+        const lista = document.getElementById('lista-reviews-modal');
+        lista.innerHTML = 'Cargando...';
+        db.collection("opiniones").where("prodId", "==", id).orderBy("fecha", "desc").limit(10)
+          .get().then(snap => {
+            lista.innerHTML = snap.empty ? 'No hay reseñas todavía.' : '';
+            snap.forEach(doc => {
+                const d = doc.data();
+                lista.innerHTML += `<div class="review-item"><span class="rev-user">${d.user}:</span> ${d.msg}</div>`;
+            });
+        });
+    }
+
+    function actualizarPrecioModal() {
+        let p = seleccionado.p;
+        if (document.getElementById('sel-consola').value === 'ps5') p += 1300;
+        const total = calcFinal(p);
+        document.getElementById('sel-precio').innerText = `$${total.toLocaleString()}`;
+        seleccionado.tempTotal = total;
+    }
+
+    function confirmarCompra() {
+        const plat = document.getElementById('sel-consola').value.toUpperCase();
+        const textoRev = document.getElementById('input-review-txt');
+
+        // Si escribió reseña y está logueado, se manda a Firebase
+        if (usuarioActivo && textoRev && textoRev.value.trim() !== '') {
+            db.collection("opiniones").add({
+                prodId: seleccionado.id,
+                user: usuarioActivo.email.split('@')[0],
+                msg: textoRev.value.trim(),
+                fecha: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
+
+        carrito.push({ n: `${seleccionado.n} (${plat})`, p: seleccionado.tempTotal });
+        actualizarCarritoUI();
+        cerrarModales();
+    }
+
+    function actualizarCarritoUI() {
+        document.getElementById('cart-count').innerText = carrito.length;
+        const cont = document.getElementById('cart-items');
+        let total = 0;
+        cont.innerHTML = '';
+        carrito.forEach((item, i) => {
+            total += item.p;
+            cont.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid #222; padding-bottom:5px;">
+                <span>${item.n}</span><span>$${item.p.toLocaleString()} <i class="fas fa-trash" onclick="borrarItem(${i})" style="color:red; margin-left:10px; cursor:pointer;"></i></span>
+            </div>`;
+        });
+        document.getElementById('cart-total').innerText = "Total: $" + total.toLocaleString();
+    }
+
+    function borrarItem(i) {
+        carrito.splice(i, 1);
+        actualizarCarritoUI();
+    }
+
+    // AUTH
+    function controlAuth() {
+        if (usuarioActivo) auth.signOut();
+        else document.getElementById('modal-auth').style.display = 'flex';
+    }
+
+    function switchAuth() {
+        authMode = authMode === 'login' ? 'reg' : 'login';
+        document.getElementById('auth-titulo').innerText = authMode === 'login' ? 'INICIAR SESIÓN' : 'CREAR CUENTA';
+        document.getElementById('auth-btn').innerText = authMode === 'login' ? 'INGRESAR' : 'REGISTRARME';
+        document.getElementById('auth-toggle').innerText = authMode === 'login' ? '¿No tenés cuenta? Registrate' : '¿Ya tenés cuenta? Entrá';
+    }
+
+    function procesarAuth() {
+        const email = document.getElementById('auth-email').value;
+        const pass = document.getElementById('auth-pass').value;
+        if (authMode === 'login') {
+            auth.signInWithEmailAndPassword(email, pass).then(cerrarModales).catch(e => alert(e.message));
+        } else {
+            auth.createUserWithEmailAndPassword(email, pass).then(cerrarModales).catch(e => alert(e.message));
+        }
+    }
+
+    // GENERALES
+    function filtrar(c, b) {
+        catFiltro = c;
+        document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        renderizar();
+    }
+    function verCarrito() { document.getElementById('modal-cart').style.display = 'flex'; }
+    function cerrarModales() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+    function irAInstagram() {
+        if (carrito.length === 0) return alert("Carrito vacío");
+        window.open("https://www.instagram.com/ima._.games/");
+    }
+
+    renderizar();
+</script>
 </body>
 </html>
