@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+v<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMA GAMES - Tienda Oficial de Juegos Digitales</title>
+    <title>IMA GAMES | Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -12,242 +12,209 @@
 
     <style>
         :root {
-            --principal: #6a0dad; 
-            --oscuro: #0f0f0f; 
-            --texto: #ffffff;
-            --acento: #a020f0;
-            --fondo-tarjeta: #1a1a1a;
+            --p: #6a0dad; 
+            --bg: #050505; 
+            --card: #111;
+            --txt: #eee;
+            --accent: #a020f0;
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--oscuro);
-            color: var(--texto);
-            margin: 0;
-            padding-bottom: 150px;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--txt);
+            padding-bottom: 100px;
+            font-size: 14px; /* Bajé el tamaño base */
         }
 
+        /* --- HEADER COMPACTO --- */
         header {
-            background-color: #000;
-            padding: 20px;
+            background: #000;
+            padding: 15px;
             text-align: center;
-            border-bottom: 3px solid var(--principal);
+            border-bottom: 2px solid var(--p);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
         .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--principal);
-            text-transform: uppercase;
+            font-size: 1.8rem; /* Más chico */
+            font-weight: 800;
+            color: var(--p);
             letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        /* BUSCADOR Y FILTROS */
-        .search-container { margin-top: 15px; }
+        .nav-info { font-size: 0.75rem; margin-top: 5px; color: #888; }
+        .btn-user {
+            background: none; border: 1px solid var(--p); color: #fff;
+            padding: 3px 12px; border-radius: 15px; font-size: 0.7rem;
+            cursor: pointer; margin-left: 8px;
+        }
+
+        /* --- BUSCADOR --- */
+        .search-area { margin: 15px auto; max-width: 500px; padding: 0 10px; }
         #buscador {
-            padding: 12px;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 25px;
-            border: 2px solid var(--principal);
-            background: #1a1a1a;
-            color: white;
-            outline: none;
-            margin-bottom: 15px;
+            width: 100%; padding: 8px 20px; border-radius: 20px;
+            border: 1px solid #333; background: #151515; color: #fff;
+            outline: none; font-size: 0.9rem;
         }
 
-        .category-filters {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
+        /* --- FILTROS CHICOS --- */
+        .cats { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+        .c-btn {
+            background: #111; border: 1px solid #333; color: #777;
+            padding: 5px 12px; border-radius: 15px; font-size: 0.75rem;
+            cursor: pointer; transition: 0.2s;
         }
+        .c-btn.active { background: var(--p); color: #fff; border-color: var(--p); }
 
-        .filter-btn {
-            background-color: #222;
-            color: white;
-            border: 1px solid #444;
-            padding: 8px 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
-        }
-
-        .filter-btn.active, .filter-btn:hover {
-            background-color: var(--principal);
-            border-color: var(--acento);
-        }
-
-        /* GRID DE PRODUCTOS */
-        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
-        .grid-productos {
+        /* --- GRID COMPACTA --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 15px; }
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); 
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Tarjetas más chicas */
+            gap: 15px;
         }
 
         .card {
-            background: var(--fondo-tarjeta);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            border: 1px solid #333;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: var(--card); border-radius: 10px; padding: 12px;
+            text-align: center; border: 1px solid #222; transition: 0.3s;
+            display: flex; flex-direction: column;
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--principal);
-            box-shadow: 0 0 20px rgba(106, 13, 173, 0.4);
-        }
-
-        .card h3 { font-size: 0.95rem; margin: 10px 0; min-height: 40px; }
-        .precio { font-size: 1.4rem; color: var(--acento); font-weight: bold; margin-bottom: 10px; }
-
+        .card:hover { border-color: var(--p); transform: translateY(-3px); }
+        .card h3 { font-size: 0.85rem; margin: 8px 0; height: 34px; overflow: hidden; line-height: 1.2; }
+        .card .stars { color: #ffd700; font-size: 0.6rem; margin-bottom: 5px; }
+        .card .price { font-size: 1.1rem; color: var(--accent); font-weight: bold; margin-bottom: 10px; }
+        
         .btn-add {
-            background-color: var(--principal);
-            color: white; border: none; padding: 10px;
-            border-radius: 6px; cursor: pointer; font-weight: bold;
+            background: var(--p); color: #fff; border: none; padding: 7px;
+            border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.75rem;
         }
 
-        /* MODALES */
+        /* --- MODALES --- */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 10000; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center;
+        }
+        .m-box {
+            background: #111; width: 90%; max-width: 350px; padding: 25px;
+            border-radius: 15px; border: 1px solid var(--p); text-align: center;
         }
 
-        .modal-content {
-            background: #111; padding: 25px; width: 90%; max-width: 420px;
-            border-radius: 15px; border: 2px solid var(--principal); color: white;
-            position: relative;
+        /* --- SECCION RESEÑAS --- */
+        .rev-zone { margin: 15px 0; background: #000; border-radius: 8px; padding: 10px; border: 1px solid #222; }
+        #rev-list { 
+            display: none; max-height: 100px; overflow-y: auto; 
+            text-align: left; font-size: 0.75rem; margin-bottom: 10px;
+        }
+        .rev-item { border-bottom: 1px solid #111; padding: 5px 0; color: #bbb; }
+        .rev-user { color: var(--p); font-weight: bold; }
+        
+        .btn-toggle-rev { 
+            background: none; border: 1px solid #333; color: #666; 
+            width: 100%; padding: 5px; font-size: 0.7rem; border-radius: 5px; cursor: pointer;
         }
 
-        select, input[type="email"], input[type="password"], textarea {
-            width: 100%; padding: 12px; margin: 10px 0; background: #222;
-            color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box;
+        textarea { 
+            width: 100%; height: 50px; background: #111; border: 1px solid #333; 
+            color: #fff; padding: 8px; font-size: 0.75rem; border-radius: 5px; resize: none;
         }
 
-        .btn-finalizar {
-            background: linear-gradient(45deg, #f09433, #bc1888);
-            color: white; width: 100%; padding: 15px; border: none;
-            border-radius: 8px; font-weight: bold; cursor: pointer;
+        /* --- CARRITO --- */
+        .cart-btn {
+            position: fixed; bottom: 20px; right: 20px; background: var(--p);
+            width: 55px; height: 55px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; cursor: pointer; font-size: 20px;
+        }
+        .badge { 
+            position: absolute; top: 0; right: 0; background: red; 
+            font-size: 10px; padding: 2px 6px; border-radius: 10px; 
         }
 
-        /* RESEÑAS DENTRO DEL MODAL */
-        .reviews-container {
-            background: #0a0a0a; border-radius: 8px; padding: 10px;
-            margin: 15px 0; text-align: left; border: 1px solid #222;
+        select, input[type="email"], input[type="password"] {
+            width: 100%; padding: 10px; margin: 8px 0; background: #1a1a1a;
+            border: 1px solid #333; color: #fff; border-radius: 8px; font-size: 0.8rem;
         }
 
-        .review-scroll { max-height: 100px; overflow-y: auto; font-size: 0.8rem; margin-bottom: 10px; }
-        .review-item { border-bottom: 1px solid #222; padding: 5px 0; }
-        .rev-user { color: var(--principal); font-weight: bold; font-size: 0.75rem; }
-
-        /* CARRITO FLOTANTE */
-        .flotante {
-            position: fixed; bottom: 25px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 5000;
-        }
-        .cart-icon {
-            background: var(--principal); width: 65px; height: 65px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 26px;
-            cursor: pointer; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        #cart-count { position: absolute; top: 0; right: 0; background: red; font-size: 12px; padding: 3px 8px; border-radius: 50%; }
-
-        @media (max-width: 600px) { .grid-productos { grid-template-columns: 1fr 1fr; gap: 10px; } }
+        @media (max-width: 480px) { .grid { grid-template-columns: 1fr 1fr; gap: 10px; } }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">IMA GAMES</div>
-    <div style="margin: 10px 0;">
-        <span id="user-info" style="font-size: 0.8rem; color: #aaa; margin-right: 10px;"></span>
-        <button id="btn-auth-header" onclick="controlAuth()" style="background:none; border:1px solid var(--principal); color:white; padding:5px 15px; border-radius:5px; cursor:pointer;">
-            Mi Cuenta
-        </button>
+    <div class="nav-info">
+        <span id="u-mail">Invitado</span>
+        <button class="btn-user" onclick="abrirAuth()">Mi Cuenta</button>
     </div>
-    <div class="search-container">
-        <input type="text" id="buscador" placeholder="Buscar un juego..." onkeyup="renderizar()">
+    <div class="search-area">
+        <input type="text" id="buscador" placeholder="Buscar..." onkeyup="render()">
     </div>
-    <div class="category-filters">
-        <button class="filter-btn active" onclick="filtrar('all', this)">Todos</button>
-        <button class="filter-btn" onclick="filtrar('accion', this)">Acción</button>
-        <button class="filter-btn" onclick="filtrar('deportes', this)">Deportes</button>
-        <button class="filter-btn" onclick="filtrar('terror', this)">Terror</button>
-        <button class="filter-btn" onclick="filtrar('plus', this)">Plus</button>
+    <div class="cats">
+        <button class="c-btn active" onclick="filtro('all', this)">Todo</button>
+        <button class="c-btn" onclick="filtro('accion', this)">Acción</button>
+        <button class="c-btn" onclick="filtro('deportes', this)">Deportes</button>
+        <button class="c-btn" onclick="filtro('terror', this)">Terror</button>
+        <button class="c-btn" onclick="filtro('plus', this)">Plus</button>
     </div>
 </header>
 
 <div class="container">
-    <div class="grid-productos" id="grid"></div>
+    <div class="grid" id="grid"></div>
 </div>
 
-<div class="flotante">
-    <a href="https://www.instagram.com/ima._.games/" target="_blank" style="text-decoration:none; background:linear-gradient(45deg,#f09433,#bc1888); color:white; padding:12px 20px; border-radius:30px; font-weight:bold; font-size:0.8rem; text-align:center;">
-        AYUDA IG
-    </a>
-    <div class="cart-icon" onclick="verCarrito()">
-        <i class="fas fa-shopping-basket"></i>
-        <span id="cart-count">0</span>
-    </div>
+<div class="cart-btn" onclick="verCart()">
+    <i class="fas fa-shopping-cart"></i>
+    <div class="badge" id="c-count">0</div>
 </div>
 
-<div id="modal-selector" class="modal">
-    <div class="modal-content">
-        <h3 id="sel-nombre" style="margin-top:0;"></h3>
-        <p style="color:#ffd700;">⭐⭐⭐⭐⭐</p>
+<div id="m-game" class="modal">
+    <div class="m-box">
+        <h4 id="m-n"></h4>
+        <div id="m-p" style="font-size: 1.5rem; color: var(--accent); font-weight: bold; margin: 10px 0;"></div>
         
-        <label>Elegí Consola:</label>
-        <select id="sel-consola" onchange="actualizarPrecioModal()">
+        <select id="m-cons" onchange="precioModal()">
             <option value="ps4">PlayStation 4</option>
             <option value="ps5">PlayStation 5</option>
         </select>
-        
-        <div id="sel-precio" style="font-size: 2.2rem; color: var(--acento); font-weight: bold; margin: 10px 0;"></div>
 
-        <div class="reviews-container">
-            <p style="font-size:0.8rem; font-weight:bold; color:var(--principal); margin:0 0 5px 0;">Opiniones:</p>
-            <div id="lista-reviews-modal" class="review-scroll"></div>
-            <div id="form-review-modal"></div>
+        <div class="rev-zone">
+            <button class="btn-toggle-rev" onclick="toggleRev()">VER OPINIONES</button>
+            <div id="rev-list"></div>
+            <div id="rev-form"></div>
         </div>
 
-        <button class="btn-finalizar" onclick="confirmarCompra()">AGREGAR AL CARRITO</button>
-        <button onclick="cerrarModales()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Cancelar</button>
+        <button class="btn-add" style="width:100%; padding:12px;" onclick="addCart()">AÑADIR AL CARRITO</button>
+        <p onclick="cerrar()" style="font-size:0.7rem; color:#444; margin-top:15px; cursor:pointer;">Cancelar</p>
     </div>
 </div>
 
-<div id="modal-auth" class="modal">
-    <div class="modal-content">
-        <h2 id="auth-titulo">INICIAR SESIÓN</h2>
-        <input type="email" id="auth-email" placeholder="Correo">
-        <input type="password" id="auth-pass" placeholder="Contraseña">
-        <button class="btn-finalizar" onclick="procesarAuth()" id="auth-btn">INGRESAR</button>
-        <p id="auth-toggle" onclick="switchAuth()" style="font-size:0.8rem; color:#888; cursor:pointer; margin-top:20px;">¿No tenés cuenta? Registrate</p>
-        <button onclick="cerrarModales()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Cerrar</button>
+<div id="m-auth" class="modal">
+    <div class="m-box">
+        <h3 id="a-t">LOGIN</h3>
+        <input type="email" id="e" placeholder="Correo">
+        <input type="password" id="pass" placeholder="Contraseña">
+        <button class="btn-add" style="width:100%" onclick="login()">ENTRAR</button>
+        <p onclick="swapAuth()" id="a-s" style="font-size:0.7rem; color:#888; margin-top:15px; cursor:pointer;">¿No tenés cuenta? Registrate</p>
+        <p onclick="cerrar()" style="font-size:0.7rem; color:#444; margin-top:10px; cursor:pointer;">Cerrar</p>
     </div>
 </div>
 
-<div id="modal-cart" class="modal">
-    <div class="modal-content">
-        <h2>Mi Carrito</h2>
-        <div id="cart-items" style="text-align:left; margin-bottom:20px;"></div>
-        <div id="cart-total" style="font-size:1.5rem; color:var(--acento); font-weight:bold; margin-bottom:20px;"></div>
-        <button class="btn-finalizar" onclick="irAInstagram()">PEDIR POR INSTAGRAM</button>
-        <button onclick="cerrarModales()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Volver</button>
+<div id="m-cart" class="modal">
+    <div class="m-box">
+        <h3>Tu Carrito</h3>
+        <div id="c-list" style="text-align:left; margin:15px 0; font-size:0.8rem;"></div>
+        <div id="c-total" style="font-size:1.2rem; font-weight:bold; color:var(--accent);"></div>
+        <button class="btn-add" style="width:100%; margin-top:15px;" onclick="irIG()">PEDIR POR WHATSAPP/IG</button>
+        <p onclick="cerrar()" style="font-size:0.7rem; color:#444; margin-top:15px; cursor:pointer;">Volver</p>
     </div>
 </div>
 
 <script>
-    // CONFIGURACIÓN FIREBASE (imagames-cba41)
+    // --- CONFIG FIREBASE ---
     const firebaseConfig = {
         apiKey: "AIzaSyCdA-R3B5Rf9QqNBFOsg6ZAM4X2vnNbtco",
         authDomain: "imagames-cba41.firebaseapp.com",
@@ -256,208 +223,121 @@
         messagingSenderId: "914385204626",
         appId: "1:914385204626:web:5ad0d3b948694ee9257d4b"
     };
-
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // --- BASE DE DATOS MASIVA (Recuperada y Extendida) ---
-    const productos = [
+    // --- CATALOGO (Aquí pones TUS juegos) ---
+    const juegos = [
         { id: "rdr2", n: "Red Dead Redemption 2", p: 7500, c: "accion", t: "j" },
         { id: "fc24", n: "EA SPORTS FC 24", p: 32000, c: "deportes", t: "j" },
-        { id: "gta5", n: "GTA V (Grand Theft Auto)", p: 15000, c: "accion", t: "j" },
+        { id: "gta5", n: "GTA V", p: 15000, c: "accion", t: "j" },
         { id: "f124", n: "F1 24", p: 36000, c: "deportes", t: "j" },
-        { id: "mk1", n: "Mortal Kombat 1", p: 45000, c: "accion", t: "j" },
-        { id: "re7", n: "Resident Evil 7: Biohazard", p: 7500, c: "terror", t: "j" },
-        { id: "for", n: "The Forest", p: 3500, c: "terror", t: "j" },
-        { id: "maf", n: "Mafia Trilogy", p: 7500, c: "accion", t: "j" },
-        { id: "f125", n: "F1 25 (SOLO PS5)", p: 80000, c: "deportes", t: "j" },
-        { id: "pl1", n: "PS Plus Essential - 1 MES", p: 12500, c: "plus", t: "s" },
-        { id: "pl2", n: "PS Plus Extra - 1 MES", p: 18500, c: "plus", t: "s" },
-        { id: "pl3", n: "PS Plus Deluxe - 1 MES", p: 23500, c: "plus", t: "s" },
-        { id: "cod_mw3", n: "Call of Duty: MW III", p: 55000, c: "accion", t: "j" },
-        { id: "er", n: "Elden Ring", p: 48000, c: "accion", t: "j" },
-        { id: "gow_r", n: "God of War Ragnarök", p: 42000, c: "accion", t: "j" },
-        { id: "spiderman2", n: "Marvel's Spider-Man 2", p: 52000, c: "accion", t: "j" },
-        { id: "tlou1", n: "The Last of Us Part I", p: 38000, c: "accion", t: "j" },
-        { id: "tlou2", n: "The Last of Us Part II", p: 18000, c: "accion", t: "j" },
-        { id: "hfw", n: "Horizon Forbidden West", p: 28000, c: "accion", t: "j" },
         { id: "re4", n: "Resident Evil 4 Remake", p: 35000, c: "terror", t: "j" },
-        { id: "outlast2", n: "Outlast 2", p: 5500, c: "terror", t: "j" },
-        { id: "dbd", n: "Dead by Daylight", p: 9000, c: "terror", t: "j" },
-        { id: "nba24", n: "NBA 2K24", p: 25000, c: "deportes", t: "j" },
-        { id: "pga", n: "PGA TOUR 2K23", p: 12000, c: "deportes", t: "j" },
-        { id: "plus12", n: "PS Plus Extra - 12 MESES", p: 145000, c: "plus", t: "s" }
-        // Agregá acá más juegos si necesitás, el sistema los renderiza solos.
+        { id: "mk1", n: "Mortal Kombat 1", p: 45000, c: "accion", t: "j" },
+        { id: "for", n: "The Forest", p: 3500, c: "terror", t: "j" },
+        { id: "pl1", n: "PS Plus Essential 1 Mes", p: 12500, c: "plus", t: "s" },
+        { id: "pl2", n: "PS Plus Extra 1 Mes", p: 18500, c: "plus", t: "s" },
+        { id: "pl3", n: "PS Plus Deluxe 1 Mes", p: 23500, c: "plus", t: "s" }
+        // Agregá los que faltan aquí siguiendo el mismo formato
     ];
 
-    let carrito = [];
-    let seleccionado = null;
-    let catFiltro = 'all';
-    let usuarioActivo = null;
-    let authMode = 'login';
+    let cart = [];
+    let fSel = 'all';
+    let uAct = null;
+    let jSel = null;
+    let aMod = 'login';
 
-    // ESTADO DE USUARIO
-    auth.onAuthStateChanged(user => {
-        usuarioActivo = user;
-        const info = document.getElementById('user-info');
-        const btn = document.getElementById('btn-auth-header');
-        if (user) {
-            info.innerText = "Hola, " + user.email.split('@')[0];
-            btn.innerText = "Salir";
-        } else {
-            info.innerText = "";
-            btn.innerText = "Mi Cuenta";
-        }
-        renderizar();
+    // AUTH MONITOR
+    auth.onAuthStateChanged(u => {
+        uAct = u;
+        document.getElementById('u-mail').innerText = u ? u.email.split('@')[0] : "Invitado";
+        render();
     });
 
-    function calcFinal(p) { return p >= 10000 ? p + 1000 : p + 1500; }
+    function com(p) { return p >= 10000 ? p + 1000 : p + 1500; }
 
-    function renderizar() {
+    function render() {
         const grid = document.getElementById('grid');
-        const bus = document.getElementById('buscador').value.toLowerCase();
+        const b = document.getElementById('buscador').value.toLowerCase();
         grid.innerHTML = '';
-
-        productos.forEach(p => {
-            if (catFiltro !== 'all' && p.c !== catFiltro) return;
-            if (!p.n.toLowerCase().includes(bus)) return;
-
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div style="font-size:0.7rem; color:#ffd700; margin-bottom:5px;">⭐⭐⭐⭐⭐</div>
-                <h3>${p.n}</h3>
-                <div class="precio">$${calcFinal(p.p).toLocaleString()}</div>
-                <button class="btn-add" onclick="abrirOpciones('${p.id}')">Agregar</button>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    // LÓGICA DE COMPRA Y RESEÑAS
-    function abrirOpciones(id) {
-        seleccionado = productos.find(x => x.id === id);
-        if (seleccionado.t === 's') {
-            carrito.push({ n: seleccionado.n, p: calcFinal(seleccionado.p) });
-            actualizarCarritoUI();
-            alert("Suscripción agregada!");
-        } else {
-            document.getElementById('sel-nombre').innerText = seleccionado.n;
-            document.getElementById('modal-selector').style.display = 'flex';
-            
-            // Cargar reseñas en el modal
-            cargarReseñas(id);
-            
-            // Preparar formulario de reseña opcional
-            const formContainer = document.getElementById('form-review-modal');
-            if (usuarioActivo) {
-                formContainer.innerHTML = `<textarea id="input-review-txt" placeholder="Escribí una reseña opcional del juego..."></textarea>`;
-            } else {
-                formContainer.innerHTML = `<p style="font-size:0.7rem; color:#666; text-align:center;">Iniciá sesión para opinar</p>`;
+        juegos.forEach(j => {
+            if ((fSel === 'all' || j.c === fSel) && j.n.toLowerCase().includes(b)) {
+                grid.innerHTML += `
+                <div class="card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <h3>${j.n}</h3>
+                    <div class="price">$${com(j.p).toLocaleString()}</div>
+                    <button class="btn-add" onclick="selJuego('${j.id}')">Agregar</button>
+                </div>`;
             }
-            
-            actualizarPrecioModal();
-        }
-    }
-
-    function cargarReseñas(id) {
-        const lista = document.getElementById('lista-reviews-modal');
-        lista.innerHTML = 'Cargando...';
-        db.collection("opiniones").where("prodId", "==", id).orderBy("fecha", "desc").limit(10)
-          .get().then(snap => {
-            lista.innerHTML = snap.empty ? 'No hay reseñas todavía.' : '';
-            snap.forEach(doc => {
-                const d = doc.data();
-                lista.innerHTML += `<div class="review-item"><span class="rev-user">${d.user}:</span> ${d.msg}</div>`;
-            });
         });
     }
 
-    function actualizarPrecioModal() {
-        let p = seleccionado.p;
-        if (document.getElementById('sel-consola').value === 'ps5') p += 1300;
-        const total = calcFinal(p);
-        document.getElementById('sel-precio').innerText = `$${total.toLocaleString()}`;
-        seleccionado.tempTotal = total;
-    }
-
-    function confirmarCompra() {
-        const plat = document.getElementById('sel-consola').value.toUpperCase();
-        const textoRev = document.getElementById('input-review-txt');
-
-        // Si escribió reseña y está logueado, se manda a Firebase
-        if (usuarioActivo && textoRev && textoRev.value.trim() !== '') {
-            db.collection("opiniones").add({
-                prodId: seleccionado.id,
-                user: usuarioActivo.email.split('@')[0],
-                msg: textoRev.value.trim(),
-                fecha: firebase.firestore.FieldValue.serverTimestamp()
-            });
-        }
-
-        carrito.push({ n: `${seleccionado.n} (${plat})`, p: seleccionado.tempTotal });
-        actualizarCarritoUI();
-        cerrarModales();
-    }
-
-    function actualizarCarritoUI() {
-        document.getElementById('cart-count').innerText = carrito.length;
-        const cont = document.getElementById('cart-items');
-        let total = 0;
-        cont.innerHTML = '';
-        carrito.forEach((item, i) => {
-            total += item.p;
-            cont.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid #222; padding-bottom:5px;">
-                <span>${item.n}</span><span>$${item.p.toLocaleString()} <i class="fas fa-trash" onclick="borrarItem(${i})" style="color:red; margin-left:10px; cursor:pointer;"></i></span>
-            </div>`;
-        });
-        document.getElementById('cart-total').innerText = "Total: $" + total.toLocaleString();
-    }
-
-    function borrarItem(i) {
-        carrito.splice(i, 1);
-        actualizarCarritoUI();
-    }
-
-    // AUTH
-    function controlAuth() {
-        if (usuarioActivo) auth.signOut();
-        else document.getElementById('modal-auth').style.display = 'flex';
-    }
-
-    function switchAuth() {
-        authMode = authMode === 'login' ? 'reg' : 'login';
-        document.getElementById('auth-titulo').innerText = authMode === 'login' ? 'INICIAR SESIÓN' : 'CREAR CUENTA';
-        document.getElementById('auth-btn').innerText = authMode === 'login' ? 'INGRESAR' : 'REGISTRARME';
-        document.getElementById('auth-toggle').innerText = authMode === 'login' ? '¿No tenés cuenta? Registrate' : '¿Ya tenés cuenta? Entrá';
-    }
-
-    function procesarAuth() {
-        const email = document.getElementById('auth-email').value;
-        const pass = document.getElementById('auth-pass').value;
-        if (authMode === 'login') {
-            auth.signInWithEmailAndPassword(email, pass).then(cerrarModales).catch(e => alert(e.message));
+    function selJuego(id) {
+        jSel = juegos.find(x => x.id === id);
+        if (jSel.t === 's') {
+            cart.push({ n: jSel.n, p: com(jSel.p) });
+            upCart(); alert("Agregado!");
         } else {
-            auth.createUserWithEmailAndPassword(email, pass).then(cerrarModales).catch(e => alert(e.message));
+            document.getElementById('m-n').innerText = jSel.n;
+            document.getElementById('m-game').style.display = 'flex';
+            document.getElementById('rev-list').style.display = 'none';
+            precioModal();
+            loadRev(id);
+            const form = document.getElementById('rev-form');
+            form.innerHTML = uAct ? `
+                <textarea id="ri" placeholder="Escribí tu reseña..."></textarea>
+                <button class="btn-add" style="width:100%; margin-top:5px; font-size:0.7rem;" onclick="sendRev()">Enviar Reseña</button>
+            ` : `<p style="font-size:0.6rem; color:#555;">Logueate para opinar</p>`;
         }
     }
 
-    // GENERALES
-    function filtrar(c, b) {
-        catFiltro = c;
-        document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
-        b.classList.add('active');
-        renderizar();
-    }
-    function verCarrito() { document.getElementById('modal-cart').style.display = 'flex'; }
-    function cerrarModales() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
-    function irAInstagram() {
-        if (carrito.length === 0) return alert("Carrito vacío");
-        window.open("https://www.instagram.com/ima._.games/");
+    function toggleRev() {
+        const l = document.getElementById('rev-list');
+        l.style.display = l.style.display === 'none' ? 'block' : 'none';
     }
 
-    renderizar();
-</script>
-</body>
-</html>
+    function loadRev(id) {
+        const l = document.getElementById('rev-list');
+        l.innerHTML = '...';
+        db.collection("opiniones").where("prodId", "==", id).orderBy("fecha", "desc").limit(5).onSnapshot(s => {
+            l.innerHTML = s.empty ? 'Sin reseñas.' : '';
+            s.forEach(d => {
+                l.innerHTML += `<div class="rev-item"><span class="rev-user">${d.data().user}:</span> ${d.data().msg}</div>`;
+            });
+        });
+    }
+
+    function sendRev() {
+        const i = document.getElementById('ri');
+        if (!i.value.trim()) return;
+        db.collection("opiniones").add({
+            prodId: jSel.id, user: uAct.email.split('@')[0],
+            msg: i.value, fecha: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => i.value = '');
+    }
+
+    function precioModal() {
+        let p = jSel.p + (document.getElementById('m-cons').value === 'ps5' ? 1300 : 0);
+        document.getElementById('m-p').innerText = `$${com(p).toLocaleString()}`;
+        jSel.tmpP = com(p);
+    }
+
+    function addCart() {
+        const c = document.getElementById('m-cons').value.toUpperCase();
+        cart.push({ n: `${jSel.n} (${c})`, p: jSel.tmpP });
+        upCart(); cerrar();
+    }
+
+    function upCart() {
+        document.getElementById('c-count').innerText = cart.length;
+        const l = document.getElementById('c-list');
+        let t = 0; l.innerHTML = '';
+        cart.forEach(i => {
+            t += i.p;
+            l.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${i.n}</span><span>$${i.p.toLocaleString()}</span></div>`;
+        });
+        document.getElementById('c-total').innerText = "Total: $" + t.toLocaleString();
+    }
+ 
