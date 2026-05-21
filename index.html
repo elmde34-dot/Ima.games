@@ -65,7 +65,6 @@
         
         .btn-toggle-rev { background: none; border: 1px solid #333; color: #666; width: 100%; padding: 5px; font-size: 0.7rem; border-radius: 5px; cursor: pointer; }
 
-        /* ESTRELLAS SELECCIONABLES */
         .star-rating { margin: 10px 0; color: #555; font-size: 1.2rem; }
         .star-rating i { cursor: pointer; transition: 0.2s; }
         .star-rating i.active { color: #ffca08; }
@@ -171,168 +170,123 @@
     const db = firebase.firestore();
 
     const juegos = [
-        { id: "rdr2", n: "Red Dead Redemption 2", p: 7500, c: "accion", t: "j" },
-        { id: "fc24", n: "EA SPORTS FC 24", p: 32000, c: "deportes", t: "j" },
-        { id: "gta5", n: "GTA V", p: 15000, c: "accion", t: "j" },
-        { id: "f124", n: "F1 24", p: 36000, c: "deportes", t: "j" },
-        { id: "re4", n: "Resident Evil 4 Remake", p: 35000, c: "terror", t: "j" },
-        { id: "mk1", n: "Mortal Kombat 1", p: 45000, c: "accion", t: "j" },
-        { id: "for", n: "The Forest", p: 3500, c: "terror", t: "j" },
-        { id: "gow", n: "God of War Ragnarok", p: 40000, c: "accion", t: "j" },
-        { id: "pl1", n: "PS Plus Essential 1 Mes", p: 12500, c: "plus", t: "s" },
-        { id: "pl2", n: "PS Plus Extra 1 Mes", p: 18500, c: "plus", t: "s" },
-        { id: "pl3", n: "PS Plus Deluxe 1 Mes", p: 23500, c: "plus", t: "s" }
-    ];
-
-    let cart = [];
-    let fSel = 'all';
-    let uAct = null;
-    let jSel = null;
-    let aMod = 'login';
-    let vSel = 5;
-
-    auth.onAuthStateChanged(u => {
-        uAct = u;
-        document.getElementById('u-mail').innerText = u ? u.email.split('@')[0] : "Invitado";
-        if(document.getElementById('grid').innerHTML === "") render();
-    });
-
-    function com(p) { return p >= 10000 ? p + 1000 : p + 1500; }
-
-    function render() {
-        const grid = document.getElementById('grid');
-        const b = document.getElementById('buscador').value.toLowerCase();
-        grid.innerHTML = '';
-        juegos.forEach(j => {
-            if ((fSel === 'all' || j.c === fSel) && j.n.toLowerCase().includes(b)) {
-                grid.innerHTML += `
-                <div class="card">
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <h3>${j.n}</h3>
-                    <div class="price">$${com(j.p).toLocaleString()}</div>
-                    <button class="btn-add" onclick="selJuego('${j.id}')">Ver más</button>
-                </div>`;
-            }
-        });
-    }
-
-    function selJuego(id) {
-        jSel = juegos.find(x => x.id === id);
-        if (jSel.t === 's') {
-            cart.push({ n: jSel.n, p: com(jSel.p) });
-            upCart(); alert("¡" + jSel.n + " agregado!");
-        } else {
-            document.getElementById('m-n').innerText = jSel.n;
-            document.getElementById('m-game').style.display = 'flex';
-            document.getElementById('rev-list').style.display = 'none';
-            vSel = 5;
-            precioModal();
-            loadRev(id);
-            dibujarFormRev();
-        }
-    }
-
-    function votar(n) { vSel = n; dibujarFormRev(); }
-
-    function dibujarFormRev() {
-        const form = document.getElementById('rev-form');
-        if (!uAct) {
-            form.innerHTML = `<p style="font-size:0.6rem; color:#555; margin-top:10px;">Inicia sesión para opinar</p>`;
-            return;
-        }
-        let estrellasHTML = '<div class="star-rating">';
-        for (let i = 1; i <= 5; i++) {
-            estrellasHTML += `<i class="fas fa-star ${i <= vSel ? 'active' : ''}" onclick="votar(${i})"></i>`;
-        }
-        estrellasHTML += '</div>';
-        form.innerHTML = `${estrellasHTML}<textarea id="ri" placeholder="Escribe tu opinión..."></textarea><button class="btn-add" style="width:100%; margin-top:5px; font-size:0.7rem;" onclick="sendRev()">Enviar Reseña</button>`;
-    }
-
-    function addCart() {
-        if (!jSel) return;
-        const c = document.getElementById('m-cons').value.toUpperCase();
-        cart.push({ n: jSel.n + " (" + c + ")", p: jSel.tmpP });
-        upCart(); cerrar();
-    }
-
-    function upCart() {
-        document.getElementById('c-count').innerText = cart.length;
-        const list = document.getElementById('c-list');
-        let total = 0; list.innerHTML = '';
-        cart.forEach(item => {
-            total += item.p;
-            list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${item.n}</span><span>$${item.p.toLocaleString()}</span></div>`;
-        });
-        document.getElementById('c-total').innerText = "Total: $" + total.toLocaleString();
-    }
-
-    // FUNCIÓN PARA COPIAR DETALLE Y ABRIR INSTAGRAM
-    function pedirYCopiar() {
-        if (cart.length === 0) return;
-        
-        let textoPedido = "¡Hola IMA GAMES! Quiero comprar:\n\n";
-        cart.forEach(item => {
-            textoPedido += "🎮 " + item.n + " ($" + item.p.toLocaleString() + ")\n";
-        });
-        textoPedido += "\n💰 " + document.getElementById('c-total').innerText;
-        textoPedido += "\n\n¿Me pasan los datos para pagar?";
-
-        navigator.clipboard.writeText(textoPedido).then(() => {
-            document.getElementById('msg-copy').style.display = 'block';
-            setTimeout(() => {
-                window.open("https://www.instagram.com/ima._.games/");
-            }, 1000);
-        });
-    }
-
-    function precioModal() {
-        if (!jSel) return;
-        let pBase = jSel.p + (document.getElementById('m-cons').value === 'ps5' ? 1300 : 0);
-        jSel.tmpP = com(pBase);
-        document.getElementById('m-p').innerText = "$" + jSel.tmpP.toLocaleString();
-    }
-
-    function loadRev(id) {
-        const l = document.getElementById('rev-list');
-        l.innerHTML = '<p style="font-size:0.6rem;">Cargando...</p>';
-        db.collection("opiniones").where("prodId", "==", id).onSnapshot(s => {
-            l.innerHTML = s.empty ? '<p style="font-size:0.6rem; color:#444;">No hay reseñas.</p>' : '';
-            const docs = [];
-            s.forEach(d => docs.push(d.data()));
-            docs.sort((a,b) => (b.fecha?.seconds || 0) - (a.fecha?.seconds || 0));
-            docs.forEach(data => {
-                let sHTML = '';
-                for(let i=1; i<=5; i++) sHTML += `<i class="fas fa-star" style="color:${i <= (data.votos || 5) ? '#ffca08' : '#333'}; font-size:0.6rem;"></i>`;
-                l.innerHTML += `<div class="rev-item">${sHTML}<br><span class="rev-user">${data.user}:</span> ${data.msg}</div>`;
-            });
-        });
-    }
-
-    function sendRev() {
-        const i = document.getElementById('ri');
-        if (!i.value.trim() || !uAct) return;
-        db.collection("opiniones").add({
-            prodId: jSel.id,
-            user: uAct.email.split('@')[0],
-            msg: i.value.trim(),
-            votos: vSel,
-            fecha: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(() => { i.value = ''; alert("Reseña enviada!"); });
-    }
-
-    function toggleRev() { const l = document.getElementById('rev-list'); l.style.display = l.style.display === 'none' ? 'block' : 'none'; }
-    function filtro(c, btn) { fSel = c; document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); render(); }
-    function abrirAuth() { if (uAct) auth.signOut(); else document.getElementById('m-auth').style.display = 'flex'; }
-    function swapAuth() { aMod = (aMod === 'login') ? 'reg' : 'login'; document.getElementById('a-t').innerText = aMod === 'login' ? 'LOGIN' : 'REGISTRO'; }
-    function ejecutarAuth() {
-        const email = document.getElementById('e').value; const password = document.getElementById('pass').value;
-        if (aMod === 'login') auth.signInWithEmailAndPassword(email, password).then(() => cerrar()).catch(e => alert(e.message));
-        else auth.createUserWithEmailAndPassword(email, password).then(() => cerrar()).catch(e => alert(e.message));
-    }
-    function verCart() { document.getElementById('m-cart').style.display = 'flex'; }
-    function cerrar() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.getElementById('msg-copy').style.display = 'none'; }
-    function irIG() { window.open("https://www.instagram.com/ima._.games/"); }
-    render();
-</script>
-</body>
-</html>
+        { id: "ace7", n: "Ace Combat 7 Skies Unknown", p: 13600, c: "accion" },
+        { id: "ace7top", n: "Ace Combat 7 Top Gun Maverick Ultimate Edition", p: 22400, c: "accion" },
+        { id: "aoe2", n: "Age Of Empires II Definitive Edition Premium Edition", p: 41100, c: "accion" },
+        { id: "among", n: "Among Us", p: 7000, c: "accion" },
+        { id: "acmir", n: "Assassin's Creed Mirage", p: 22400, c: "accion" },
+        { id: "acmirmas", n: "Assassin's Creed Mirage Master Assassin Edition", p: 39500, c: "accion" },
+        { id: "acod", n: "Assassin's Creed Odyssey", p: 16000, c: "accion" },
+        { id: "acodult", n: "Assassin's Creed Odyssey Ultimate Edition", p: 27700, c: "accion" },
+        { id: "acshad", n: "Assassin's Creed Shadows Digital Deluxe Edition", p: 46000, c: "accion" },
+        { id: "acsynd", n: "Assassin's Creed Syndicate Gold Edition", p: 18700, c: "accion" },
+        { id: "acval", n: "Assassin's Creed Valhalla", p: 18700, c: "accion" },
+        { id: "acvalcom", n: "Assassin's Creed Valhalla Complete Edition", p: 36700, c: "accion" },
+        { id: "assetto", n: "Assetto Corsa", p: 11200, c: "deportes" },
+        { id: "astro", n: "ASTRO BOT Rescue Mission", p: 13600, c: "accion" },
+        { id: "atomic", n: "Atomic Heart", p: 24900, c: "accion" },
+        { id: "avatar", n: "Avatar Frontiers Of Pandora", p: 22400, c: "accion" },
+        { id: "avatarcom", n: "Avatar Frontiers Of Pandora Complete Edition", p: 45700, c: "accion" },
+        { id: "absolum", n: "Absolum", p: 22200, c: "accion" },
+        { id: "bayonetta", n: "Bayonetta", p: 10000, c: "accion" },
+        { id: "ben10", n: "Ben 10", p: 13600, c: "accion" },
+        { id: "bendy", n: "Bendy And The Dark Revival", p: 9800, c: "terror" },
+        { id: "bendyink", n: "Bendy And The Ink Machine", p: 9800, c: "terror" },
+        { id: "boxing", n: "Big Rumble Boxing Creed Champions", p: 11700, c: "deportes" },
+        { id: "blasphemous", n: "Blasphemous 2 Mea Culpa Edition", p: 16900, c: "accion" },
+        { id: "bleach", n: "BLEACH Rebirth Of Souls", p: 31700, c: "accion" },
+        { id: "bleachult", n: "BLEACH Rebirth Of Souls Ultimate Edition", p: 50400, c: "accion" },
+        { id: "border3", n: "Borderlands 3 Next Level Edition", p: 6300, c: "accion" },
+        { id: "borderleg", n: "Borderlands Legendary Collection", p: 13600, c: "accion" },
+        { id: "borderhand", n: "Borderlands The Handsome Collection", p: 13600, c: "accion" },
+        { id: "bussim", n: "Bus Simulator", p: 10700, c: "deportes" },
+        { id: "bussim21", n: "Bus Simulator 21 Next Stop", p: 16000, c: "deportes" },
+        { id: "creed", n: "Creed Rise To Glory", p: 9800, c: "deportes" },
+        { id: "creedchamp", n: "Creed Rise To Glory Championship Edition", p: 17800, c: "deportes" },
+        { id: "darksiders3", n: "Darksiders III Blades & Whip Edition", p: 19700, c: "accion" },
+        { id: "darksiders3del", n: "Darksiders III Digital Deluxe Edition", p: 13600, c: "accion" },
+        { id: "deadisland", n: "Dead Island Definitive Edition", p: 7000, c: "terror" },
+        { id: "deadislandrip", n: "Dead Island Riptide Definitive Edition", p: 7000, c: "terror" },
+        { id: "deadspace", n: "Dead Space Edición Digital Deluxe", p: 22400, c: "terror" },
+        { id: "deathloop", n: "Deathloop", p: 16000, c: "accion" },
+        { id: "demonslayer2", n: "Demon Slayer Kimetsu No Yaiba The Hinokami Chronicles 2 Deluxe Edition", p: 45700, c: "accion" },
+        { id: "demonsouls", n: "Demon's Souls", p: 14900, c: "accion" },
+        { id: "detroit", n: "Detroit Become Human Digital Deluxe Edition", p: 18700, c: "accion" },
+        { id: "dmc4", n: "Devil May Cry 4 Special Edition", p: 8800, c: "accion" },
+        { id: "dmc5", n: "Devil May Cry 5 + Vergil", p: 8400, c: "accion" },
+        { id: "dmc5del", n: "Devil May Cry 5 Deluxe + Vergil", p: 13600, c: "accion" },
+        { id: "dmc5se", n: "Devil May Cry 5 Special Edition", p: 13600, c: "accion" },
+        { id: "dmchd", n: "Devil May Cry HD Collection", p: 8400, c: "accion" },
+        { id: "dmcbundle", n: "Devil May Cry HD Collection & 4SE Bundle", p: 12600, c: "accion" },
+        { id: "diablo3", n: "Diablo III Eternal Collection", p: 7800, c: "accion" },
+        { id: "diablo4", n: "Diablo IV Standard Edition", p: 31700, c: "accion" },
+        { id: "diabloprime", n: "Diablo Prime Evil Collection", p: 9000, c: "accion" },
+        { id: "dishonored2", n: "Dishonored 2", p: 9800, c: "accion" },
+        { id: "dishonoreddef", n: "Dishonored Definitive Edition", p: 8800, c: "accion" },
+        { id: "dmc4hunter", n: "DMC4SE Demon Hunter Bundle", p: 14900, c: "accion" },
+        { id: "dmcdef", n: "DmC Devil May Cry Definitive Edition", p: 13600, c: "accion" },
+        { id: "doomanth", n: "Doom Anthology", p: 31700, c: "accion" },
+        { id: "doometernal", n: "Doom Eternal Deluxe Edition", p: 9500, c: "accion" },
+        { id: "doomdark", n: "Doom The Dark Ages Premium Edition", p: 36700, c: "accion" },
+        { id: "dbfighterz", n: "Dragon Ball FighterZ Edición Legendaria", p: 31000, c: "accion" },
+        { id: "dbxenoverse2", n: "Dragon Ball Xenoverse 2 Special Edition", p: 22400, c: "accion" },
+        { id: "dbzkakarot", n: "Dragon Ball Z Kakarot", p: 18700, c: "accion" },
+        { id: "dbzkakmaster", n: "Dragon Ball Z Kakarot Master Edition", p: 64700, c: "accion" },
+        { id: "dbsparking", n: "Dragon Ball Sparking Zero Deluxe Edition", p: 50400, c: "accion" },
+        { id: "dragonquest11", n: "Dragon Quest XI S Ecos De Un Pasado Perdido Edición Definitiva", p: 22400, c: "accion" },
+        { id: "dredge", n: "Dredge", p: 13600, c: "terror" },
+        { id: "drunkn", n: "Drunkn Bar Fight VR", p: 16000, c: "accion" },
+        { id: "dyinglight", n: "Dying Light", p: 8800, c: "terror" },
+        { id: "dyinglightbeast", n: "Dying Light The Beast Deluxe Edition", p: 55400, c: "terror" },
+        { id: "madden26", n: "EA Sports Madden NFL 26", p: 17800, c: "deportes" },
+        { id: "pgatour", n: "EA Sports PGA Tour Deluxe Edition", p: 12100, c: "deportes" },
+        { id: "expeditions", n: "Expeditions A Mudrunner Game", p: 27300, c: "deportes" },
+        { id: "farcry5", n: "Far Cry 5 Gold Edition", p: 17400, c: "accion" },
+        { id: "farcry6", n: "Far Cry 6 Game Of The Year Edition", p: 12700, c: "accion" },
+        { id: "farcrydawn", n: "Far Cry New Dawn", p: 11700, c: "accion" },
+        { id: "ff7rebirth", n: "Final Fantasy VII Rebirth", p: 31700, c: "accion" },
+        { id: "ff7remake", n: "Final Fantasy VII Remake", p: 18700, c: "accion" },
+        { id: "ff7inter", n: "Final Fantasy VII Remake Intergrade", p: 18900, c: "accion" },
+        { id: "ff15", n: "Final Fantasy XV Royal Edition", p: 17800, c: "accion" },
+        { id: "ff16", n: "Final Fantasy XVI Complete Edition", p: 31700, c: "accion" },
+        { id: "fnafhelp2", n: "Five Nights At Freddy's Help Wanted 2", p: 19700, c: "terror" },
+        { id: "forhonor", n: "For Honor", p: 8400, c: "accion" },
+        { id: "forzahor5prem", n: "Forza Horizon 5 Premium Edition", p: 59800, c: "deportes" },
+        { id: "forzahor5std", n: "Forza Horizon 5 Standard Edition", p: 39500, c: "deportes" },
+        { id: "gears", n: "Gears Of War Reloaded", p: 22400, c: "accion" },
+        { id: "gowdel", n: "God Of War Digital Deluxe Edition", p: 18700, c: "accion" },
+        { id: "gow3", n: "God Of War III Remastered", p: 13600, c: "accion" },
+        { id: "gta5", n: "Grand Theft Auto V", p: 22400, c: "accion" },
+        { id: "gridleg", n: "Grid Legends", p: 11800, c: "deportes" },
+        { id: "grounded", n: "Grounded", p: 22400, c: "accion" },
+        { id: "heavyrain", n: "Heavy Rain", p: 16000, c: "accion" },
+        { id: "hifirush", n: "Hi Fi Rush", p: 20200, c: "accion" },
+        { id: "hifirushdel", n: "Hi Fi Rush Deluxe Edition", p: 25900, c: "accion" },
+        { id: "hogwarts", n: "Hogwarts Legacy Edición Digital Deluxe", p: 16000, c: "accion" },
+        { id: "horizonwest", n: "Horizon Forbidden West", p: 22400, c: "accion" },
+        { id: "houseflipper", n: "House Flipper", p: 6500, c: "accion" },
+        { id: "judgment", n: "Judgment", p: 11200, c: "accion" },
+        { id: "jurassic2", n: "Jurassic World Evolution 2", p: 22400, c: "accion" },
+        { id: "jurassic3", n: "Jurassic World Evolution 3", p: 45700, c: "accion" },
+        { id: "justcause4gold", n: "Just Cause 4 Gold Edition", p: 12600, c: "accion" },
+        { id: "justcause4rel", n: "Just Cause 4 Reloaded", p: 9800, c: "accion" },
+        { id: "justdance2026", n: "Just Dance 2026 Edition", p: 27300, c: "deportes" },
+        { id: "justdance2026ult", n: "Just Dance 2026 Edition Edición Ultimate", p: 46000, c: "deportes" },
+        { id: "kingdomcome", n: "Kingdom Come Deliverance", p: 9800, c: "accion" },
+        { id: "kingdomcome2", n: "Kingdom Come Deliverance II", p: 36700, c: "accion" },
+        { id: "mordor2", n: "La Tierra Media Sombras De Guerra Edición Definitiva", p: 9800, c: "accion" },
+        { id: "mordor1", n: "La Tierra Media Sombras De Mordor Edición Juego Del Año", p: 8800, c: "accion" },
+        { id: "liesofp", n: "Lies Of P Overture Bundle", p: 59800, c: "accion" },
+        { id: "lifeisstrange2", n: "Life Is Strange 2 Temporada Completa", p: 6000, c: "accion" },
+        { id: "lifeisstrangetrue", n: "Life Is Strange True Colors Ultimate Edition", p: 35800, c: "accion" },
+        { id: "likeadragongaiden", n: "Like A Dragon Gaiden The Man Who Erased His Name", p: 18700, c: "accion" },
+        { id: "likeadragonwealth", n: "Like A Dragon Infinite Wealth Deluxe Edition", p: 25200, c: "accion" },
+        { id: "lordsofthefallen", n: "Lords Of The Fallen", p: 13600, c: "accion" },
+        { id: "lostjudgment", n: "Lost Judgment Digital Ultimate Edition", p: 10000, c: "accion" },
+        { id: "mafia2", n: "Mafia II Definitive Edition", p: 9800, c: "accion" },
+        { id: "mafia3", n: "Mafia III Definitive Edition", p: 9800, c: "accion" },
+        { id: "mafiaold", n: "Mafia The Old Country Edición Deluxe", p: 50400, c: "accion" },
+        { id: "madison", n: "MADiSON", p: 24900, c: "terror" },
+        { id: "matchpoint", n: "Matchpoint Tennis Championships Legends Edition", p: 25900, c: "deportes" },
+        { id: "metro2033", n: "Metro 2033 Redux", p: 7000, c: "terror" },
+        { id: "metroexodus", n: "Metro Exodus Gold Edition", 
