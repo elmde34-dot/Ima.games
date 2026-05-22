@@ -3,295 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMA GAMES | Store Oficial</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-    
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
+    <title>Página en Mantenimiento</title>
     <style>
-        :root {
-            --p: #6a0dad; 
-            --bg: #050505; 
-            --card: #111;
-            --txt: #eee;
-            --accent: #a020f0;
-            --gray: #444;
-            --white: #ffffff;
-            --ig: #E1306C;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
-
-        body { background-color: var(--bg); color: var(--txt); padding-bottom: 120px; font-size: 14px; }
-
-        header {
-            background: #000; padding: 15px; text-align: center; border-bottom: 2px solid var(--p);
-            position: sticky; top: 0; z-index: 1000;
+        .container {
+            max-width: 600px;
+            padding: 20px;
         }
 
-        .logo { font-size: 1.8rem; font-weight: 900; color: var(--p); letter-spacing: 3px; text-transform: uppercase; }
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
 
-        .nav-info { font-size: 0.8rem; color: #888; margin: 10px 0; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
 
-        .btn-user { background: none; border: 1px solid var(--p); color: var(--white); padding: 3px 12px; border-radius: 15px; font-size: 0.7rem; cursor: pointer; }
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #7f8c8d;
+        }
 
-        .search-area { margin: 15px auto; max-width: 500px; padding: 0 10px; }
-        #buscador { width: 100%; padding: 10px 20px; border-radius: 20px; border: 1px solid #222; background: #111; color: #fff; outline: none; font-size: 0.9rem; }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
 
-        .cats { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-        .c-btn { background: #111; border: 1px solid #333; color: #777; padding: 5px 12px; border-radius: 15px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
-        .c-btn.active { background: var(--p); color: #fff; border-color: var(--p); }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 15px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-
-        .card { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; border: 1px solid #222; display: flex; flex-direction: column; }
-        .card h3 { font-size: 0.85rem; margin: 8px 0; height: 34px; overflow: hidden; }
-        .card .price { font-size: 1.1rem; color: var(--accent); font-weight: bold; margin-bottom: 10px; }
-        
-        .btn-add { background: var(--p); color: #fff; border: none; padding: 8px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; }
-        .m-box { background: #0f0f0f; width: 90%; max-width: 380px; padding: 25px; border-radius: 15px; border: 1px solid var(--p); text-align: center; }
-
-        .rev-zone { margin: 15px 0; background: #000; border-radius: 8px; padding: 12px; border: 1px solid #222; }
-        #rev-list { display: none; max-height: 120px; overflow-y: auto; text-align: left; font-size: 0.75rem; margin-bottom: 10px; }
-        .rev-item { border-bottom: 1px solid #111; padding: 5px 0; color: #bbb; }
-        .rev-user { color: var(--p); font-weight: bold; }
-        
-        .btn-toggle-rev { background: none; border: 1px solid #333; color: #666; width: 100%; padding: 5px; font-size: 0.7rem; border-radius: 5px; cursor: pointer; }
-
-        .star-rating { margin: 10px 0; color: #555; font-size: 1.2rem; }
-        .star-rating i { cursor: pointer; transition: 0.2s; }
-        .star-rating i.active { color: #ffca08; }
-
-        textarea { width: 100%; height: 50px; background: #111; border: 1px solid #333; color: #fff; padding: 8px; font-size: 0.75rem; border-radius: 5px; resize: none; }
-
-        .cart-btn { position: fixed; bottom: 20px; right: 20px; background: var(--p); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; z-index: 100; }
-        .help-btn { position: fixed; bottom: 20px; left: 20px; background: var(--ig); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 22px; z-index: 100; }
-        .badge { position: absolute; top: 0; right: 0; background: red; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
-
-        select, input[type="email"], input[type="password"] { width: 100%; padding: 10px; margin: 8px 0; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 8px; font-size: 0.8rem; }
-
-        @media (max-width: 480px) { .grid { grid-template-columns: 1fr 1fr; gap: 10px; } }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">IMA GAMES</div>
-    <div class="nav-info">
-        <i class="fas fa-user-circle"></i> <span id="u-mail">Invitado</span>
-        <button class="btn-user" onclick="abrirAuth()">Mi Cuenta</button>
-    </div>
-    <div class="search-area">
-        <input type="text" id="buscador" placeholder="¿Qué juego buscas?" onkeyup="render()">
-    </div>
-    <div class="cats">
-        <button class="c-btn active" onclick="filtro('all', this)">Todo</button>
-        <button class="c-btn" onclick="filtro('accion', this)">Acción</button>
-        <button class="c-btn" onclick="filtro('deportes', this)">Deportes</button>
-        <button class="c-btn" onclick="filtro('terror', this)">Terror</button>
-        <button class="c-btn" onclick="filtro('plus', this)">Plus</button>
-    </div>
-</header>
-
-<div class="container">
-    <div class="grid" id="grid"></div>
-</div>
-
-<div class="help-btn" onclick="irIG()">
-    <i class="fab fa-instagram"></i>
-</div>
-
-<div class="cart-btn" onclick="verCart()">
-    <i class="fas fa-shopping-cart"></i>
-    <div class="badge" id="c-count">0</div>
-</div>
-
-<div id="m-game" class="modal">
-    <div class="m-box">
-        <h4 id="m-n" style="color:#fff;"></h4>
-        <div id="m-p" style="font-size: 1.5rem; color: var(--accent); font-weight: bold; margin: 10px 0;"></div>
+    <div class="container">
+        <div class="icon">🛠️</div>
+        <h1>Estamos mejorando</h1>
+        <p>Nuestro sitio web se encuentra actualmente en mantenimiento para brindarte una mejor experiencia. Volveremos a estar en línea muy pronto.</p>
         
-        <select id="m-cons" onchange="precioModal()">
-            <option value="ps4">PlayStation 4</option>
-            <option value="ps5">PlayStation 5</option>
-        </select>
+        <div class="loader"></div>
 
-        <div class="rev-zone">
-            <button class="btn-toggle-rev" onclick="toggleRev()">OPINIONES DE USUARIOS</button>
-            <div id="rev-list"></div>
-            <div id="rev-form"></div>
+        <div class="footer">
+            &copy; 2026 Tu Empresa. Gracias por la paciencia.
         </div>
-
-        <button class="btn-add" style="width:100%; padding:12px;" onclick="addCart()">AÑADIR AL CARRITO</button>
-        <p onclick="cerrar()" style="font-size:0.7rem; color:#444; margin-top:15px; cursor:pointer;">Cancelar</p>
     </div>
-</div>
 
-<div id="m-auth" class="modal">
-    <div class="m-box">
-        <h3 id="a-t">LOGIN</h3>
-        <input type="email" id="e" placeholder="Correo">
-        <input type="password" id="pass" placeholder="Contraseña">
-        <button class="btn-add" style="width:100%" onclick="ejecutarAuth()">CONFIRMAR</button>
-        <p onclick="swapAuth()" id="a-s" style="font-size:0.7rem; color:#888; margin-top:15px; cursor:pointer;">¿No tenés cuenta? Registrate</p>
-        <p onclick="cerrar()" style="font-size:0.7rem; color:#444; margin-top:10px; cursor:pointer;">Cerrar</p>
-    </div>
-</div>
-
-<div id="m-cart" class="modal">
-    <div class="m-box">
-        <h3 style="color:#fff;">Tu Pedido</h3>
-        <div id="c-list" style="text-align:left; margin:15px 0; font-size:0.8rem; color:#ccc;"></div>
-        <div id="c-total" style="font-size:1.2rem; font-weight:bold; color:var(--accent);"></div>
-        <button class="btn-add" style="width:100%; margin-top:15px; background: var(--ig);" onclick="pedirYCopiar()">PEDIR POR INSTAGRAM</button>
-        <p id="msg-copy" style="font-size:0.6rem; color:var(--ig); margin-top:5px; display:none;">¡Pedido copiado! Pegalo en el chat de Instagram.</p>
-        <p onclick="cerrar()" style="font-size:0.7rem; color:#444; margin-top:15px; cursor:pointer;">Volver</p>
-    </div>
-</div>
-
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyCdA-R3B5Rf9QqNBFOsg6ZAM4X2vnNbtco",
-        authDomain: "imagames.firebaseapp.com",
-        projectId: "imagames",
-        storageBucket: "imagames.appspot.com",
-        messagingSenderId: "914385204626",
-        appId: "1:914385204626:web:5ad0d3b948694ee9257d4b"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    const juegos = [
-        { id: "ace7", n: "Ace Combat 7 Skies Unknown", p: 13600, c: "accion" },
-        { id: "ace7top", n: "Ace Combat 7 Top Gun Maverick Ultimate Edition", p: 22400, c: "accion" },
-        { id: "aoe2", n: "Age Of Empires II Definitive Edition Premium Edition", p: 41100, c: "accion" },
-        { id: "among", n: "Among Us", p: 7000, c: "accion" },
-        { id: "acmir", n: "Assassin's Creed Mirage", p: 22400, c: "accion" },
-        { id: "acmirmas", n: "Assassin's Creed Mirage Master Assassin Edition", p: 39500, c: "accion" },
-        { id: "acod", n: "Assassin's Creed Odyssey", p: 16000, c: "accion" },
-        { id: "acodult", n: "Assassin's Creed Odyssey Ultimate Edition", p: 27700, c: "accion" },
-        { id: "acshad", n: "Assassin's Creed Shadows Digital Deluxe Edition", p: 46000, c: "accion" },
-        { id: "acsynd", n: "Assassin's Creed Syndicate Gold Edition", p: 18700, c: "accion" },
-        { id: "acval", n: "Assassin's Creed Valhalla", p: 18700, c: "accion" },
-        { id: "acvalcom", n: "Assassin's Creed Valhalla Complete Edition", p: 36700, c: "accion" },
-        { id: "assetto", n: "Assetto Corsa", p: 11200, c: "deportes" },
-        { id: "astro", n: "ASTRO BOT Rescue Mission", p: 13600, c: "accion" },
-        { id: "atomic", n: "Atomic Heart", p: 24900, c: "accion" },
-        { id: "avatar", n: "Avatar Frontiers Of Pandora", p: 22400, c: "accion" },
-        { id: "avatarcom", n: "Avatar Frontiers Of Pandora Complete Edition", p: 45700, c: "accion" },
-        { id: "absolum", n: "Absolum", p: 22200, c: "accion" },
-        { id: "bayonetta", n: "Bayonetta", p: 10000, c: "accion" },
-        { id: "ben10", n: "Ben 10", p: 13600, c: "accion" },
-        { id: "bendy", n: "Bendy And The Dark Revival", p: 9800, c: "terror" },
-        { id: "bendyink", n: "Bendy And The Ink Machine", p: 9800, c: "terror" },
-        { id: "boxing", n: "Big Rumble Boxing Creed Champions", p: 11700, c: "deportes" },
-        { id: "blasphemous", n: "Blasphemous 2 Mea Culpa Edition", p: 16900, c: "accion" },
-        { id: "bleach", n: "BLEACH Rebirth Of Souls", p: 31700, c: "accion" },
-        { id: "bleachult", n: "BLEACH Rebirth Of Souls Ultimate Edition", p: 50400, c: "accion" },
-        { id: "border3", n: "Borderlands 3 Next Level Edition", p: 6300, c: "accion" },
-        { id: "borderleg", n: "Borderlands Legendary Collection", p: 13600, c: "accion" },
-        { id: "borderhand", n: "Borderlands The Handsome Collection", p: 13600, c: "accion" },
-        { id: "bussim", n: "Bus Simulator", p: 10700, c: "deportes" },
-        { id: "bussim21", n: "Bus Simulator 21 Next Stop", p: 16000, c: "deportes" },
-        { id: "creed", n: "Creed Rise To Glory", p: 9800, c: "deportes" },
-        { id: "creedchamp", n: "Creed Rise To Glory Championship Edition", p: 17800, c: "deportes" },
-        { id: "darksiders3", n: "Darksiders III Blades & Whip Edition", p: 19700, c: "accion" },
-        { id: "darksiders3del", n: "Darksiders III Digital Deluxe Edition", p: 13600, c: "accion" },
-        { id: "deadisland", n: "Dead Island Definitive Edition", p: 7000, c: "terror" },
-        { id: "deadislandrip", n: "Dead Island Riptide Definitive Edition", p: 7000, c: "terror" },
-        { id: "deadspace", n: "Dead Space Edición Digital Deluxe", p: 22400, c: "terror" },
-        { id: "deathloop", n: "Deathloop", p: 16000, c: "accion" },
-        { id: "demonslayer2", n: "Demon Slayer Kimetsu No Yaiba The Hinokami Chronicles 2 Deluxe Edition", p: 45700, c: "accion" },
-        { id: "demonsouls", n: "Demon's Souls", p: 14900, c: "accion" },
-        { id: "detroit", n: "Detroit Become Human Digital Deluxe Edition", p: 18700, c: "accion" },
-        { id: "dmc4", n: "Devil May Cry 4 Special Edition", p: 8800, c: "accion" },
-        { id: "dmc5", n: "Devil May Cry 5 + Vergil", p: 8400, c: "accion" },
-        { id: "dmc5del", n: "Devil May Cry 5 Deluxe + Vergil", p: 13600, c: "accion" },
-        { id: "dmc5se", n: "Devil May Cry 5 Special Edition", p: 13600, c: "accion" },
-        { id: "dmchd", n: "Devil May Cry HD Collection", p: 8400, c: "accion" },
-        { id: "dmcbundle", n: "Devil May Cry HD Collection & 4SE Bundle", p: 12600, c: "accion" },
-        { id: "diablo3", n: "Diablo III Eternal Collection", p: 7800, c: "accion" },
-        { id: "diablo4", n: "Diablo IV Standard Edition", p: 31700, c: "accion" },
-        { id: "diabloprime", n: "Diablo Prime Evil Collection", p: 9000, c: "accion" },
-        { id: "dishonored2", n: "Dishonored 2", p: 9800, c: "accion" },
-        { id: "dishonoreddef", n: "Dishonored Definitive Edition", p: 8800, c: "accion" },
-        { id: "dmc4hunter", n: "DMC4SE Demon Hunter Bundle", p: 14900, c: "accion" },
-        { id: "dmcdef", n: "DmC Devil May Cry Definitive Edition", p: 13600, c: "accion" },
-        { id: "doomanth", n: "Doom Anthology", p: 31700, c: "accion" },
-        { id: "doometernal", n: "Doom Eternal Deluxe Edition", p: 9500, c: "accion" },
-        { id: "doomdark", n: "Doom The Dark Ages Premium Edition", p: 36700, c: "accion" },
-        { id: "dbfighterz", n: "Dragon Ball FighterZ Edición Legendaria", p: 31000, c: "accion" },
-        { id: "dbxenoverse2", n: "Dragon Ball Xenoverse 2 Special Edition", p: 22400, c: "accion" },
-        { id: "dbzkakarot", n: "Dragon Ball Z Kakarot", p: 18700, c: "accion" },
-        { id: "dbzkakmaster", n: "Dragon Ball Z Kakarot Master Edition", p: 64700, c: "accion" },
-        { id: "dbsparking", n: "Dragon Ball Sparking Zero Deluxe Edition", p: 50400, c: "accion" },
-        { id: "dragonquest11", n: "Dragon Quest XI S Ecos De Un Pasado Perdido Edición Definitiva", p: 22400, c: "accion" },
-        { id: "dredge", n: "Dredge", p: 13600, c: "terror" },
-        { id: "drunkn", n: "Drunkn Bar Fight VR", p: 16000, c: "accion" },
-        { id: "dyinglight", n: "Dying Light", p: 8800, c: "terror" },
-        { id: "dyinglightbeast", n: "Dying Light The Beast Deluxe Edition", p: 55400, c: "terror" },
-        { id: "madden26", n: "EA Sports Madden NFL 26", p: 17800, c: "deportes" },
-        { id: "pgatour", n: "EA Sports PGA Tour Deluxe Edition", p: 12100, c: "deportes" },
-        { id: "expeditions", n: "Expeditions A Mudrunner Game", p: 27300, c: "deportes" },
-        { id: "farcry5", n: "Far Cry 5 Gold Edition", p: 17400, c: "accion" },
-        { id: "farcry6", n: "Far Cry 6 Game Of The Year Edition", p: 12700, c: "accion" },
-        { id: "farcrydawn", n: "Far Cry New Dawn", p: 11700, c: "accion" },
-        { id: "ff7rebirth", n: "Final Fantasy VII Rebirth", p: 31700, c: "accion" },
-        { id: "ff7remake", n: "Final Fantasy VII Remake", p: 18700, c: "accion" },
-        { id: "ff7inter", n: "Final Fantasy VII Remake Intergrade", p: 18900, c: "accion" },
-        { id: "ff15", n: "Final Fantasy XV Royal Edition", p: 17800, c: "accion" },
-        { id: "ff16", n: "Final Fantasy XVI Complete Edition", p: 31700, c: "accion" },
-        { id: "fnafhelp2", n: "Five Nights At Freddy's Help Wanted 2", p: 19700, c: "terror" },
-        { id: "forhonor", n: "For Honor", p: 8400, c: "accion" },
-        { id: "forzahor5prem", n: "Forza Horizon 5 Premium Edition", p: 59800, c: "deportes" },
-        { id: "forzahor5std", n: "Forza Horizon 5 Standard Edition", p: 39500, c: "deportes" },
-        { id: "gears", n: "Gears Of War Reloaded", p: 22400, c: "accion" },
-        { id: "gowdel", n: "God Of War Digital Deluxe Edition", p: 18700, c: "accion" },
-        { id: "gow3", n: "God Of War III Remastered", p: 13600, c: "accion" },
-        { id: "gta5", n: "Grand Theft Auto V", p: 22400, c: "accion" },
-        { id: "gridleg", n: "Grid Legends", p: 11800, c: "deportes" },
-        { id: "grounded", n: "Grounded", p: 22400, c: "accion" },
-        { id: "heavyrain", n: "Heavy Rain", p: 16000, c: "accion" },
-        { id: "hifirush", n: "Hi Fi Rush", p: 20200, c: "accion" },
-        { id: "hifirushdel", n: "Hi Fi Rush Deluxe Edition", p: 25900, c: "accion" },
-        { id: "hogwarts", n: "Hogwarts Legacy Edición Digital Deluxe", p: 16000, c: "accion" },
-        { id: "horizonwest", n: "Horizon Forbidden West", p: 22400, c: "accion" },
-        { id: "houseflipper", n: "House Flipper", p: 6500, c: "accion" },
-        { id: "judgment", n: "Judgment", p: 11200, c: "accion" },
-        { id: "jurassic2", n: "Jurassic World Evolution 2", p: 22400, c: "accion" },
-        { id: "jurassic3", n: "Jurassic World Evolution 3", p: 45700, c: "accion" },
-        { id: "justcause4gold", n: "Just Cause 4 Gold Edition", p: 12600, c: "accion" },
-        { id: "justcause4rel", n: "Just Cause 4 Reloaded", p: 9800, c: "accion" },
-        { id: "justdance2026", n: "Just Dance 2026 Edition", p: 27300, c: "deportes" },
-        { id: "justdance2026ult", n: "Just Dance 2026 Edition Edición Ultimate", p: 46000, c: "deportes" },
-        { id: "kingdomcome", n: "Kingdom Come Deliverance", p: 9800, c: "accion" },
-        { id: "kingdomcome2", n: "Kingdom Come Deliverance II", p: 36700, c: "accion" },
-        { id: "mordor2", n: "La Tierra Media Sombras De Guerra Edición Definitiva", p: 9800, c: "accion" },
-        { id: "mordor1", n: "La Tierra Media Sombras De Mordor Edición Juego Del Año", p: 8800, c: "accion" },
-        { id: "liesofp", n: "Lies Of P Overture Bundle", p: 59800, c: "accion" },
-        { id: "lifeisstrange2", n: "Life Is Strange 2 Temporada Completa", p: 6000, c: "accion" },
-        { id: "lifeisstrangetrue", n: "Life Is Strange True Colors Ultimate Edition", p: 35800, c: "accion" },
-        { id: "likeadragongaiden", n: "Like A Dragon Gaiden The Man Who Erased His Name", p: 18700, c: "accion" },
-        { id: "likeadragonwealth", n: "Like A Dragon Infinite Wealth Deluxe Edition", p: 25200, c: "accion" },
-        { id: "lordsofthefallen", n: "Lords Of The Fallen", p: 13600, c: "accion" },
-        { id: "lostjudgment", n: "Lost Judgment Digital Ultimate Edition", p: 10000, c: "accion" },
-        { id: "mafia2", n: "Mafia II Definitive Edition", p: 9800, c: "accion" },
-        { id: "mafia3", n: "Mafia III Definitive Edition", p: 9800, c: "accion" },
-        { id: "mafiaold", n: "Mafia The Old Country Edición Deluxe", p: 50400, c: "accion" },
-        { id: "madison", n: "MADiSON", p: 24900, c: "terror" },
-        { id: "matchpoint", n: "Matchpoint Tennis Championships Legends Edition", p: 25900, c: "deportes" },
-        { id: "metro2033", n: "Metro 2033 Redux", p: 7000, c: "terror" },
-        { id: "metroexodus", n: "Metro Exodus Gold Edition", p: 9800, c: "terror" },
-        { id: "metrolast", n: "Metro Last Light Redux", p: 7000, c: "terror" },
-        { id: "flightsim", n: "Microsoft Flight Simulator 2024 Standard Edition", p: 59300, c: "deportes" },
-        { id: "supercross5sp", n: "Monster Energy Supercross 5 Special Edition", p: 9800, c: "deportes" },
-        { id: "supercross5", n: "Monster Energy Supercross The Official Videogame 5", p: 7900, c: "deportes" },
-        { id: "mk11ult", n: "Mortal Kombat 11 Ultimate", p: 980
+</body>
+</html>
