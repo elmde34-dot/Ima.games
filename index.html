@@ -28,6 +28,10 @@
       color: var(--text);
     }
 
+    body.bloqueado {
+      overflow: hidden;
+    }
+
     header {
       min-height: 78vh;
       padding: 28px 7%;
@@ -101,6 +105,56 @@
     button:hover, .hero-link:hover {
       transform: translateY(-2px);
       filter: brightness(1.12);
+    }
+
+    .mantenimiento {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      background:
+        linear-gradient(rgba(8, 3, 14, 0.9), rgba(8, 3, 14, 0.94)),
+        url("https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .mantenimiento.oculto {
+      display: none;
+    }
+
+    .mantenimiento-box {
+      width: min(420px, 100%);
+      padding: 26px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(29, 13, 49, 0.96);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .mantenimiento-box h1 {
+      margin: 0 0 12px;
+      font-size: 34px;
+    }
+
+    .mantenimiento-box p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .error-clave {
+      display: none;
+      margin-top: 12px;
+      color: #ff9bb9;
+      font-weight: 900;
+    }
+
+    .error-clave.activo {
+      display: block;
     }
 
     main { padding: 44px 7%; }
@@ -436,7 +490,19 @@
     }
   </style>
 </head>
-<body>
+<body class="bloqueado">
+  <div class="mantenimiento" id="pantallaMantenimiento">
+    <div class="mantenimiento-box">
+      <h1>Pagina en mantenimiento</h1>
+      <p>Ingresa la contrasena para ver Imagames.</p>
+      <form id="formMantenimiento">
+        <input type="password" id="claveMantenimiento" placeholder="Contrasena" autocomplete="current-password" required>
+        <button type="submit">Entrar</button>
+      </form>
+      <div class="error-clave" id="errorClave">Contrasena incorrecta.</div>
+    </div>
+  </div>
+
   <header id="inicio">
     <nav>
       <div class="logo">Ima<span>games</span></div>
@@ -760,6 +826,10 @@ Zombie Army 4 Dead War: $8.800
     });
 
     const catalogoJuegos = document.getElementById("catalogoJuegos");
+    const pantallaMantenimiento = document.getElementById("pantallaMantenimiento");
+    const formMantenimiento = document.getElementById("formMantenimiento");
+    const claveMantenimiento = document.getElementById("claveMantenimiento");
+    const errorClave = document.getElementById("errorClave");
     const busqueda = document.getElementById("busqueda");
     const botonesFiltro = document.querySelectorAll("[data-filtro]");
     const contador = document.getElementById("contador");
@@ -784,6 +854,27 @@ Zombie Army 4 Dead War: $8.800
     let usuarioActual = JSON.parse(localStorage.getItem("imagamesUsuario")) || null;
     let resenas = JSON.parse(localStorage.getItem("imagamesResenas")) || {};
     let juegoAbierto = null;
+
+    function desbloquearPagina() {
+      pantallaMantenimiento.classList.add("oculto");
+      document.body.classList.remove("bloqueado");
+    }
+
+    formMantenimiento.addEventListener("submit", (evento) => {
+      evento.preventDefault();
+      if (claveMantenimiento.value === "paulito06") {
+        sessionStorage.setItem("imagamesAcceso", "ok");
+        desbloquearPagina();
+      } else {
+        errorClave.classList.add("activo");
+        claveMantenimiento.value = "";
+        claveMantenimiento.focus();
+      }
+    });
+
+    if (sessionStorage.getItem("imagamesAcceso") === "ok") {
+      desbloquearPagina();
+    }
 
     function imagenJuego(nombre) {
       const limpio = nombre.replace(/\(PS5\)/g, "").trim();
