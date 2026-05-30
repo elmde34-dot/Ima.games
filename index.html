@@ -28,9 +28,6 @@
       color: var(--text);
     }
 
-    body.bloqueado {
-      overflow: hidden;
-    }
 
     header {
       min-height: 78vh;
@@ -107,55 +104,6 @@
       filter: brightness(1.12);
     }
 
-    .mantenimiento {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: grid;
-      place-items: center;
-      padding: 22px;
-      background:
-        linear-gradient(rgba(8, 3, 14, 0.9), rgba(8, 3, 14, 0.94)),
-        url("https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?auto=format&fit=crop&w=1600&q=80");
-      background-size: cover;
-      background-position: center;
-    }
-
-    .mantenimiento.oculto {
-      display: none;
-    }
-
-    .mantenimiento-box {
-      width: min(420px, 100%);
-      padding: 26px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: rgba(29, 13, 49, 0.96);
-      box-shadow: var(--shadow);
-      text-align: center;
-    }
-
-    .mantenimiento-box h1 {
-      margin: 0 0 12px;
-      font-size: 34px;
-    }
-
-    .mantenimiento-box p {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .error-clave {
-      display: none;
-      margin-top: 12px;
-      color: #ff9bb9;
-      font-weight: 900;
-    }
-
-    .error-clave.activo {
-      display: block;
-    }
 
     main { padding: 44px 7%; }
     section { margin-bottom: 54px; }
@@ -486,23 +434,25 @@
     @media (max-width: 820px) {
       nav, .links { flex-direction: column; align-items: flex-start; }
       .toolbar, .zonas, .detalle-grid { grid-template-columns: 1fr; }
+      header { min-height: auto; padding: 22px 5%; }
+      main { padding: 32px 5%; }
+      .hero { padding: 54px 0 32px; }
       .hero p { font-size: 17px; }
+      .catalogo { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .info { padding: 12px; }
+      .info h3 { min-height: 58px; font-size: 15px; }
+      .precio { font-size: 18px; }
+      button, .hero-link { width: 100%; padding: 11px 12px; }
+      .burbuja-carrito { right: 14px; bottom: 14px; }
+    }
+
+    @media (max-width: 430px) {
+      .catalogo { grid-template-columns: 1fr; }
+      .cover { aspect-ratio: 16 / 10; }
     }
   </style>
 </head>
-<body class="bloqueado">
-  <div class="mantenimiento" id="pantallaMantenimiento">
-    <div class="mantenimiento-box">
-      <h1>Pagina en mantenimiento</h1>
-      <p>Ingresa la contrasena para ver Imagames.</p>
-      <form id="formMantenimiento">
-        <input type="password" id="claveMantenimiento" placeholder="Contrasena" autocomplete="current-password" required>
-        <button type="submit">Entrar</button>
-      </form>
-      <div class="error-clave" id="errorClave">Contrasena incorrecta.</div>
-    </div>
-  </div>
-
+<body>
   <header id="inicio">
     <nav>
       <div class="logo">Ima<span>games</span></div>
@@ -593,228 +543,340 @@
 
   <script>
     const catalogoTexto = `
-Ace Combat 7 Skies Unknown: $13.600
-Ace Combat 7 Skies Unknown Top Gun Maverick Ultimate Edition: $22.400
-Age Of Empires II Definitive Edition Premium Edition (PS5): $41.100
-Among Us: $7.000
-Assassin's Creed Mirage: $22.400
-Assassin's Creed Mirage Master Assassin Edition: $39.500
-Assassin's Creed Odyssey: $16.000
-Assassin's Creed Odyssey Ultimate Edition: $27.700
-Assassin's Creed Shadows Digital Deluxe Edition (PS5): $46.000
-Assassin's Creed Syndicate Gold Edition: $18.700
-Assassin's Creed Valhalla: $18.700
-Assassin's Creed Valhalla Complete Edition: $36.700
-Assetto Corsa: $11.200
-ASTRO BOT Rescue Mission: $13.600
-Atomic Heart: $24.900
-Avatar Frontiers Of Pandora (PS5): $22.400
-Avatar Frontiers Of Pandora Complete Edition (PS5): $45.700
-Absolum: $22.200
-Bayonetta: $10.000
-Ben 10: $13.600
-Bendy And The Dark Revival: $9.800
-Bendy And The Ink Machine: $9.800
-Big Rumble Boxing Creed Champions: $11.700
-Blasphemous 2 Mea Culpa Edition: $16.900
-BLEACH Rebirth Of Souls: $31.700
-BLEACH Rebirth Of Souls Ultimate Edition: $50.400
-Borderlands 3 Next Level Edition: $6.300
-Borderlands Legendary Collection: $13.600
-Borderlands The Handsome Collection: $13.600
-Bus Simulator: $10.700
-Bus Simulator 21 Next Stop: $16.000
-Creed Rise To Glory: $9.800
-Creed Rise To Glory Championship Edition: $17.800
-Darksiders III Blades & Whip Edition: $19.700
-Darksiders III Digital Deluxe Edition: $13.600
-Dead Island Definitive Edition: $7.000
-Dead Island Riptide Definitive Edition: $7.000
-Dead Space Edicion Digital Deluxe (PS5): $22.400
-Deathloop (PS5): $16.000
-Demon Slayer Kimetsu No Yaiba The Hinokami Chronicles 2 Deluxe Edition: $45.700
-Demon's Souls (PS5): $14.900
-Detroit Become Human Digital Deluxe Edition: $18.700
-Devil May Cry 4 Special Edition: $8.800
-Devil May Cry 5 + Vergil: $8.400
-Devil May Cry 5 Deluxe + Vergil: $13.600
-Devil May Cry 5 Special Edition (PS5): $13.600
-Devil May Cry HD Collection: $8.400
-Devil May Cry HD Collection & 4SE Bundle: $12.600
-Diablo III Eternal Collection: $7.800
-Diablo IV Standard Edition: $31.700
-Diablo Prime Evil Collection: $9.000
-Dishonored 2: $9.800
-Dishonored Definitive Edition: $8.800
-DMC4SE Demon Hunter Bundle: $14.900
-DmC Devil May Cry Definitive Edition: $13.600
-Doom Anthology: $31.700
-Doom Eternal Deluxe Edition: $9.500
-Doom The Dark Ages Premium Edition (PS5): $36.700
-Dragon Ball FighterZ Edicion Legendaria: $31.000
-Dragon Ball Xenoverse 2 Special Edition: $22.400
-Dragon Ball Z Kakarot: $18.700
-Dragon Ball Z Kakarot Master Edition: $64.700
-Dragon Ball Sparking Zero Deluxe Edition (PS5): $50.400
-Dragon Quest XI S Ecos De Un Pasado Perdido Edicion Definitiva: $22.400
-Dredge: $13.600
-Drunkn Bar Fight VR: $16.000
-Dying Light: $8.800
-Dying Light The Beast Deluxe Edition (PS5): $55.400
-EA Sports Madden NFL 26 (PS5): $17.800
-EA Sports PGA Tour Deluxe Edition (PS5): $12.100
-Expeditions A Mudrunner Game: $27.300
-Far Cry 5 Gold Edition: $17.400
-Far Cry 6 Game Of The Year Edition: $12.700
-Far Cry New Dawn: $11.700
-Final Fantasy VII Rebirth (PS5): $31.700
-Final Fantasy VII Remake: $18.700
-Final Fantasy VII Remake Intergrade (PS5): $18.900
-Final Fantasy XV Royal Edition: $17.800
-Final Fantasy XVI Complete Edition (PS5): $31.700
-Five Nights At Freddy's Help Wanted 2 (PS5): $19.700
-For Honor: $8.400
-Forza Horizon 5 Premium Edition (PS5): $59.800
-Forza Horizon 5 Standard Edition (PS5): $39.500
-Gears Of War Reloaded (PS5): $22.400
-God Of War Digital Deluxe Edition: $18.700
-God Of War III Remastered: $13.600
-Grand Theft Auto V: $22.400
-Grid Legends: $11.800
-Grounded: $22.400
-Heavy Rain: $16.000
-Hi Fi Rush (PS5): $20.200
-Hi Fi Rush Deluxe Edition (PS5): $25.900
-Hogwarts Legacy Edicion Digital Deluxe: $16.000
-Horizon Forbidden West: $22.400
-House Flipper: $6.500
-Judgment: $11.200
-Judgment (PS5): $13.600
-Jurassic World Evolution 2: $22.400
-Jurassic World Evolution 3 (PS5): $45.700
-Just Cause 4 Gold Edition: $12.600
-Just Cause 4 Reloaded: $9.800
-Just Dance 2026 Edition (PS5): $27.300
-Just Dance 2026 Edition Edicion Ultimate (PS5): $46.000
-Kingdom Come Deliverance: $9.800
-Kingdom Come Deliverance II (PS5): $36.700
-La Tierra Media Sombras De Guerra Edicion Definitiva: $9.800
-La Tierra Media Sombras De Mordor Edicion Juego Del Ano: $8.800
-Lies Of P Overture Bundle: $59.800
-Life Is Strange 2 Temporada Completa: $6.000
-Life Is Strange True Colors Ultimate Edition: $35.800
-Like A Dragon Gaiden The Man Who Erased His Name: $18.700
-Like A Dragon Infinite Wealth Deluxe Edition: $25.200
-Lords Of The Fallen (PS5): $13.600
-Lost Judgment Digital Ultimate Edition: $10.000
-Mafia II Definitive Edition: $9.800
-Mafia III Definitive Edition: $9.800
-Mafia The Old Country Edicion Deluxe (PS5): $50.400
-MADiSON: $24.900
-Matchpoint Tennis Championships Legends Edition: $25.900
-Metro 2033 Redux: $7.000
-Metro Exodus Gold Edition: $9.800
-Metro Last Light Redux: $7.000
-Microsoft Flight Simulator 2024 Standard Edition (PS5): $59.300
-Monster Energy Supercross 5 Special Edition: $9.800
-Monster Energy Supercross The Official Videogame 5: $7.900
-Mortal Kombat 11 Ultimate: $9.800
-Mortal Kombat 1 Edicion Definitiva (PS5): $24.900
-MotoGP 22: $8.400
-Mudrunner American Wilds Edition: $9.200
-MXGP 24 The Official Game (PS5): $16.000
-My Hero Academia All's Justice Edicion Deluxe (PS5): $64.700
-Naruto Shippuden Ultimate Ninja Storm 4: $18.700
-Naruto X Boruto Ultimate Ninja Storm Connections Deluxe Edition: $36.700
-NBA 2K26: $19.700
-Nier Automata Game Of The Yorha Edition: $19.700
-Nier Replicant: $9.700
-Ninja Gaiden 4 (PS5): $45.700
-Nobody Wants To Die: $10.000
-Overcooked 2: $10.000
-Overcooked 2 Gourmet Edition: $15.400
-Palworld (PS5): $27.300
-Paquete Ultimate Sonic: $21.600
-Payday 2 Crimewave Edition: $7.900
-Persona 5 Strikers: $10.000
-Police Simulator Patrol Officers: $18.700
-Power Rangers Battle For The Grid: $7.900
-Prey Digital Deluxe Edition: $11.700
-Psychonauts 2: $16.000
-Ratchet & Clank Una Dimension Aparte Edicion Digital Deluxe (PS5): $17.200
-Red Dead Redemption & Red Dead Redemption 2 Bundle: $41.100
-Red Dead Redemption 2 Edicion Definitiva: $22.400
-Returnal Digital Deluxe Edition (PS5): $17.200
-Rise Of The Ronin (PS5): $31.700
-Robocop Rogue City Alex Murphy Edition (PS5): $21.600
-Rugby 22: $6.100
-Rust Console Edition (PS5): $27.300
-Sackboy Una Gran Aventura: $28.800
-Senua's Saga Hellblade II (PS5): $27.300
-Session Skate Sim: $11.700
-Shadow Of The Colossus: $13.600
-Silent Hill 2 & Silent Hill F Standard Dual Pack (PS5): $59.800
-Sifu Deluxe Edition: $16.400
-Sleeping Dogs Definitive Edition: $9.800
-Sniper Elite 4 Deluxe Edition: $12.600
-Snowrunner: $19.700
-Sonic Colours Ultimate Digital Deluxe: $9.000
-Sonic Mania: $11.700
-Sonic Origins: $12.600
-Sonic Racing Crossworlds: $45.700
-Sonic Superstars: $21.600
-Sonic X Shadow Generations Digital Deluxe: $27.300
-Soulcalibur VI Deluxe Edition: $18.200
-South Park The Fractured But Whole: $12.600
-Star Wars Jedi La Orden Caida Edicion Deluxe: $13.600
-Star Wars Outlaws (PS5): $24.900
-Star Wars Battlefront II: $5.900
-Star Wars Battlefront Ultimate Edition: $5.500
-Superhot: $11.200
-Taxi Life A City Driving Simulator (PS5): $17.800
-Teenage Mutant Ninja Turtles The Cowabunga Collection: $19.700
-Tekken 7 Edicion Originales: $18.700
-Tennis World Tour 2 Ace Edition: $11.700
-Terminator 2D No Fate: $24.900
-The Chant (PS5): $8.800
-The Crew Motorfest: $16.000
-The Crew Motorfest (PS5): $17.800
-The Elder Scrolls IV Oblivion Remastered (PS5): $41.100
-The Elder Scrolls V Skyrim Special Edition: $13.600
-The Evil Within: $8.800
-The King Of Fighters XV Edicion Deluxe: $13.600
-The King Of Fighters XV Edicion Estandar: $11.200
-The King Of Fighters XV Ultimate Edition: $18.700
-The Last Of Us Part II: $31.700
-The Last Of Us Part I Digital Deluxe Edition (PS5): $41.100
-The Last Of Us Remastered: $13.600
-The Order 1886: $14.100
-The Texas Chain Saw Massacre: $7.700
-Tiebreak Ace Edition: $27.300
-Tom Clancy's Ghost Recon Breakpoint Deluxe Edition: $17.800
-Tom Clancy's Ghost Recon Breakpoint Gold Edition: $22.400
-Tom Clancy's Ghost Recon Wildlands Year 2 Gold Edition: $6.800
-Tom Clancy's The Division: $9.800
-Tony Hawk's Pro Skater 1 + 2 Lote Multigeneracion Deluxe (PS5): $22.400
-Tony Hawk's Pro Skater 3 + 4 Edicion Digital Deluxe: $36.700
-Topspin 2K25 Edicion Deluxe: $27.300
-Trails In The Sky 1st Chapter (PS5): $41.100
-Uncharted 4 A Thief's End & Uncharted The Lost Legacy Digital Bundle: $22.400
-Uncharted Coleccion Legado De Ladrones (PS5): $22.400
-Undisputed (PS5): $27.300
-Vampyr: $11.700
-Visage: $24.900
-Warhammer 40000 Darktide (PS5): $13.600
-Watch Dogs 2 Gold Edition: $16.000
-Watch Dogs Legion: $12.600
-Watch Dogs Legion Ultimate Edition: $27.300
-Wolfenstein Alt History Collection: $16.000
-Wolfenstein The New Order: $8.800
-Wolfenstein The Two Pack: $11.200
-WWE 2K26 Standard Edition (PS5): $55.400
-Yakuza Kiwami & Yakuza Kiwami 2 Bundle: $24.900
-Yakuza Like A Dragon Legendary Hero Edition: $16.000
-Zombie Army 4 Dead War: $8.800
+A Plague Tale Innocence: $12.500
+A Plague Tale Requiem (PS5): $22.800
+A Way Out: $10.000
+Alan Wake 2 Deluxe Edition (PS5): $25.000
+Alan Wake Remastered: $7.800
+Alien Isolation: $11.600
+Ancestors The Humankind Odyssey: $10.800
+Arma Reforger (PS5): $29.000
+AO Tennis 2: $9.100
+Assassin's Creed Antiquity Pack: $20.500
+Assassin's Creed Origins Gold Edition: $26.000
+Assassin's Creed Shadows (PS5): $33.500
+Assassin's Creed Syndicate: $11.600
+Assassin's Creed The Ezio Collection: $14.700
+Assassin's Creed Unity: $12.500
+Assetto Corsa: $11.500
+Assetto Corsa Competizione: $12.100
+ASTRO BOT (PS5): $40.500
+Back 4 Blood Ultimate Edition: $7.300
+Balatro: $14.700
+Baldur's Gate 3 (PS5): $50.500
+BALL x PIT (PS5): $14.700
+Batman Arkham Collection: $9.100
+Battlefield 4: $9.100
+Battlefield 2042 (PS4): $9.500
+Battlefield 2042 (PS5): $10.500
+Battlefield 6 (PS5): $37.500
+Battlefield 1: $9.100
+Battlefield 5: $7.500
+Bayonetta & Vanquish 10th Anniversary Bundle: $12.500
+BioShock The Collection: $12.500
+Borderlands 3: $5.900
+Borderlands 4 (PS5): $41.700
+Brothers A Tale Of Two Sons Remake (PS5): $10.800
+Bully: $10.500
+Burnout Paradise Remastered: $5.600
+Call Of Duty Black Ops III Zombies Chronicles Edition: $19.500
+Call Of Duty Modern Warfare: $19.500
+Call Of Duty Modern Warfare 2 Campaign Remastered: $6.500
+Call Of Duty Modern Warfare Remastered: $21.500
+Call Of Duty Modern Warfare II: $23.500
+Call Of Duty Modern Warfare III: $28.000
+CHRONO CROSS The Radical Dreamers Edition: $10.800
+Clair Obscur Expedition 33 (PS5): $37.500
+Crash Bandicoot Crashiversary Bundle: $59.200
+Crash Bandicoot Quadrilogy Bundle: $37.600
+Cronos The New Dawn (PS5): $36.100
+Cult Of The Lamb: $15.100
+Cyberpunk 2077: $25.000
+Darksiders II Deathinitive Edition: $14.700
+Darksiders III: $10.800
+Darksiders Fury's Collection War And Death: $10.800
+Darwin's Paradox (PS5): $20.400
+Days Gone Remastered (PS5): $29.000
+DayZ: $25.000
+Dead Island Definitive Collection: $7.800
+Dead Rising 2: $8.200
+Dead Rising 4 Frank's Big Package: $12.500
+Dead Rising Deluxe Remaster (PS5): $25.000
+Dead Space (PS5): $19.400
+DEATH STRANDING 2 On The Beach (PS5): $37.500
+DIRT 5: $19.800
+DiRT Rally 2.0 Game Of The Year Edition: $21.500
+Dispatch (PS5): $25.000
+Divinity Original Sin 2 Definitive Edition: $17.200
+DOOM Eternal Standard Edition: $7.800
+Doom The Dark Ages (PS5): $25.000
+Dragon Age Inquisition Game Of The Year Edition: $12.500
+Dragon Ball FighterZ: $12.500
+Dragon Ball Xenoverse: $8.200
+Dragon Ball Xenoverse 2: $8.200
+Dragon Ball Xenoverse 2 Deluxe Edition: $10.800
+Dragon Ball Xenoverse Super Bundle: $12.500
+Dragon Ball Xenoverse + Season Pass Bundle: $11.200
+Dragon Ball Z Kakarot: $16.500
+Dragon Ball Sparking Zero (PS5): $33.500
+DYNASTY WARRIORS 9: $14.700
+Dying Light Collection: $23.200
+Dying Light Definitive Edition: $10.400
+Dying Light The Beast (PS5): $42.000
+Dying Light The Beast RL Definitive Edition (PS5): $63.000
+EA Family Bundle: $10.800
+EA SPORTS PGA TOUR (PS5): $9.900
+EA SPORTS WRC 24 (PS5): $17.200
+EA STAR WARS Triple Bundle: $8.800
+Fallout 4: $18.100
+Fallout 76: $12.500
+FAR CRY ANTHOLOGY BUNDLE: $42.000
+Far Cry 5 + Far Cry New Dawn Complete Edition: $17.200
+Far Cry 5 + Far Cry New Dawn Ultimate Edition: $20.500
+Far Cry New Dawn Deluxe Edition: $12.500
+FATAL FRAME II Crimson Butterfly Remake (PS5): $37.500
+FATAL FRAME Mask Of The Lunar Eclipse: $29.000
+FATAL FRAME Maiden Of Black Water: $29.000
+FINAL FANTASY VII REBIRTH Digital Deluxe Edition (PS5): $29.000
+FINAL FANTASY VII REMAKE & REBIRTH Digital Deluxe Twin Pack (PS5): $37.500
+FINAL FANTASY VII REMAKE & REBIRTH Twin Pack (PS5): $32.700
+FINAL FANTASY XVI (PS5): $20.500
+Five Nights At Freddy's Security Breach: $23.700
+Forza Horizon 5 Deluxe Edition (PS5): $46.000
+Gang Beasts: $10.800
+Ghost Of Yotei (PS5): $44.000
+God Of War Ragnarok (PS4): $20.500
+God Of War Ragnarok (PS5): $23.500
+God Of War Sons Of Sparta (PS5): $25.000
+Gotham Knights (PS5): $9.900
+Gran Turismo 7 (PS4): $23.500
+Gran Turismo 7 (PS5): $30.500
+Grand Theft Auto V (PS4): $17.000
+Grand Theft Auto V (PS5): $23.400
+Grand Theft Auto The Trilogy The Definitive Edition: $20.500
+GreedFall Gold Edition: $12.500
+Hades: $11.400
+Hell Is Us (PS5): $25.000
+Hell Let Loose (PS5): $15.100
+HELLDIVERS 2 (PS5): $29.000
+High On Life: $16.400
+High On Life + DLC Bundle: $20.500
+HITMAN World Of Assassination: $29.000
+Hogwarts Legacy (PS4): $11.600
+Hogwarts Legacy (PS5): $13.400
+Horizon Forbidden West Complete Edition (PS5): $37.500
+Horizon Zero Dawn Remastered (PS5): $22.800
+Indiana Jones And The Great Circle (PS5): $54.100
+Injustice 2 Legendary Edition: $9.300
+Insurgency Sandstorm: $12.500
+It Takes Two: $15.400
+Jo's Bizarre Adventure All Star Battle R Deluxe Edition: $20.500
+Jo's Bizarre Adventure Eyes Of Heaven Bundle: $12.500
+Jujutsu Kaisen Cursed Clash: $17.200
+Jurassic World Evolution: $10.400
+Jurassic World Evolution 2 Deluxe Edition: $24.600
+Jurassic World Evolution 2 Dominion Bundle: $25.000
+Jurassic World Evolution 3 Deluxe Edition (PS5): $46.000
+Jurassic World Evolution Jurassic Park Edition: $12.500
+Just Cause 3 XXL Edition: $5.300
+Just Cause 4 Complete Edition: $16.400
+Kena Bridge Of Spirits: $29.000
+Kingdom Come Deliverance Royal Edition: $10.800
+L.A. Noire: $6.900
+Legacy Of Kain Soul Reaver 1&2 Remastered: $16.000
+LEGO Harry Potter Collection (PS5): $10.800
+LEGO Marvel Collection: $11.600
+LEGO Star Wars The Skywalker Saga: $14.700
+Life Is Strange Double Exposure (PS5): $20.500
+Life Is Strange Remastered Collection: $6.100
+Life Is Strange True Colors Deluxe Edition: $8.700
+Lies Of P: $29.000
+Like A Dragon Infinite Wealth: $19.400
+Little Nightmares III: $29.000
+Lords Of The Fallen Deluxe Edition (PS5): $12.500
+Mafia Definitive Edition: $5.600
+Mafia The Old Country (PS5): $33.500
+Mafia Trilogy: $6.600
+Manhunt: $11.600
+MARVEL vs CAPCOM Fighting Collection Arcade Classics: $20.500
+Marvel vs Capcom Infinite Deluxe Edition: $12.500
+Marvel vs Capcom Infinite Standard Edition: $8.100
+Marvel's Guardians Of The Galaxy: $11.600
+Marvel's Spider Man Miles Morales: $23.700
+Marvel's Spider Man Remastered (PS5): $25.000
+Marvel's Spider Man 2 Digital Deluxe Edition (PS5): $37.500
+Mass Effect Legendary Edition: $14.700
+Mass Effect Andromeda Standard Recruit Edition: $9.100
+Max Payne: $11.600
+Mega Man 11: $12.500
+METAL GEAR SOLID Master Collection Vol 1: $13.400
+Metaphor ReFantazio: $33.500
+Metro Exodus: $7.800
+Metro Saga Bundle: $9.100
+MLB The Show 26 (PS5): $50.700
+MONSTER HUNTER WORLD: $10.800
+Monster Hunter Rise: $10.800
+Monster Hunter Rise + Sunbreak: $12.500
+Monster Hunter Wilds (PS5): $29.000
+Monster Hunter Wilds Deluxe Edition (PS5): $37.500
+Monster Hunter World Iceborne Master Edition: $12.500
+Mortal Kombat 11: $8.200
+Mortal Kombat XL: $8.200
+Mortal Kombat 1 (PS5): $12.500
+Mount & Blade II Bannerlord: $15.100
+MudRunner: $9.100
+MX vs ATV Legends: $12.500
+MY HERO ACADEMIA All's Justice (PS5): $37.500
+MY HERO ONE'S JUSTICE 2 Deluxe Edition: $17.200
+NARUTO SHIPPUDEN Ultimate Ninja Storm 4 Road To Boruto: $20.500
+NARUTO TO BORUTO Shinobi Striker: $8.200
+NARUTO X BORUTO Ultimate Ninja Storm Connections: $25.000
+NARUTO X BORUTO Ultimate Ninja Storm Connections Ultimate Edition: $37.500
+NASCAR 25 (PS5): $37.500
+NBA 2K26: $19.400
+Need For Speed: $9.100
+Need For Speed Heat Deluxe Edition: $9.900
+Need For Speed Hot Pursuit Remastered: $9.100
+Need For Speed Payback Deluxe Edition: $10.900
+Need For Speed Rivals: $9.100
+Need For Speed Unbound (PS5): $13.400
+NHL 26 Standard Edition (PS5): $22.800
+NINJA GAIDEN 2 Black (PS5): $25.000
+NINJA GAIDEN Master Collection: $20.500
+No Man's Sky: $19.500
+Outlast: $8.200
+Outlast 2: $9.200
+Outlast Bundle Of Terror: $9.200
+Outlast Trinity: $12.500
+Overcooked All You Can Eat: $14.700
+PGA TOUR 2K25 (PS5): $25.000
+Persona 3 Reload: $25.000
+Persona 4 Golden: $12.500
+Persona 5 Royal (PS5): $17.200
+Persona 5 Royal Ultimate Edition (PS4): $17.200
+Phasmophobia (PS5): $16.400
+Plants vs Zombies Battle For Neighborville Deluxe Edition: $11.600
+Plants vs Zombies Garden Warfare 2 Standard Edition: $9.100
+Poppy Playtime Chapter 2: $8.200
+Poppy Playtime Chapter 3: $10.400
+Poppy Playtime Chapter 4: $12.500
+Prey: $9.100
+Ratchet & Clank Rift Apart (PS5): $13.700
+Ready Or Not (PS5): $37.500
+Red Dead Redemption: $25.000
+Red Dead Redemption 2: $16.500
+REMATCH (PS5): $17.200
+Resident Evil: $8.200
+Resident Evil 0: $8.200
+Resident Evil 2 Remake: $10.800
+Resident Evil 3 Remake: $10.800
+Resident Evil 4 (2005): $8.200
+Resident Evil 4 Remake: $11.500
+Resident Evil 5: $8.200
+Resident Evil 6: $8.200
+Resident Evil 7 Biohazard: $10.800
+Resident Evil 7 Gold Edition & Village Gold Edition: $20.500
+Resident Evil Code Veronica X: $9.100
+Resident Evil Remake Trilogy: $31.000
+Resident Evil Requiem (PS5): $50.000
+Resident Evil Revelations: $8.200
+Resident Evil Village: $12.500
+Rise Of The Tomb Raider 20 Year Celebration: $7.800
+RoboCop Rogue City (PS5): $18.100
+S.T.A.L.K.E.R. 2 Heart Of Chornobyl (PS5): $46.000
+Sackboy A Big Adventure Digital Deluxe Edition: $29.000
+Saints Row IV Re Elected: $8.200
+Saints Row The Third Remastered: $10.400
+Satisfactory (PS5): $32.700
+Sekiro Shadows Die Twice Game Of The Year Edition: $11.500
+Serious Sam Collection: $11.600
+Shadow Of The Tomb Raider Definitive Edition: $9.100
+Shin Megami Tensei Vengeance (PS5): $22.800
+Sid Meier's Civilization VI: $9.100
+Sid Meier's Civilization VII: $41.700
+Sifu: $12.500
+SILENT HILL 2 (PS5): $33.500
+SILENT HILL f (PS5): $33.500
+Slime Rancher: $8.200
+Slime Rancher 2 (PS5): $19.800
+Sniper Elite 4: $9.100
+Sniper Elite 5: $20.500
+Sniper Elite 5 Complete Edition: $37.500
+Sniper Elite Resistance: $33.500
+Sniper Ghost Warrior Contracts 1 & 2 Double Pack: $9.100
+SnowRunner 1 Year Anniversary Edition: $20.500
+Sonic Colors Ultimate: $14.700
+Sonic Frontiers: $19.800
+Sonic Frontiers Digital Deluxe Edition: $22.800
+Sonic Origins Plus: $14.700
+SONIC FORCES Digital Standard Edition: $12.500
+SOULCALIBUR VI: $12.500
+SOUTH PARK Snow Day (PS5): $14.700
+South Park The Video Game Collection: $19.800
+Split Fiction (PS5): $33.500
+SpongeBob SquarePants Battle For Bikini Bottom Rehydrated: $16.000
+Spyro Reignited Trilogy: $12.500
+STAR WARS Jedi Fallen Order: $10.800
+STAR WARS Jedi Survivor (PS4): $15.100
+STAR WARS Jedi Survivor (PS5): $13.400
+STAR WARS Jedi Cross Gen Bundle Edition: $25.000
+STAR WARS Battlefront II Celebration Edition: $12.500
+STAR WARS Squadrons: $8.100
+STEEP: $9.100
+Stellar Blade (PS5): $37.500
+Stray: $17.200
+Street Fighter 6: $20.500
+Suicide Squad Kill The Justice League (PS5): $8.800
+TEKKEN 7: $12.500
+TEKKEN 7 Definitive Edition: $20.500
+TEKKEN 8 (PS5): $25.000
+Team Sonic Racing: $11.600
+Tennis World Tour: $9.100
+Tennis World Tour Legends Edition: $9.300
+Tennis World Tour Roland Garros Edition: $10.400
+Terraria: $12.500
+The Alters (PS5): $25.000
+The Crew 2: $11.600
+The Crew 2 Special Edition: $14.700
+The Crew Motorfest Deluxe Edition: $20.500
+THE FOREST: $8.500
+The Evil Within 2: $10.800
+The Evil Within Digital Bundle: $10.400
+The First Berserker Khazan Standard Edition (PS5): $36.100
+The Last Of Us Part I (PS5): $26.000
+The Last Of Us Part II Remastered (PS5): $26.000
+The LEGO Games Bundle: $12.500
+The Midnight Walk (PS5): $20.500
+The Quarry (PS4): $11.600
+The Quarry (PS5): $12.500
+The Warriors: $11.600
+The Witcher 3 Wild Hunt Complete Edition: $11.900
+theHunter Call Of The Wild: $9.100
+TIEBREAK+ Official Game Of The ATP And WTA: $19.400
+Titanfall 2 Ultimate Edition: $8.300
+Tomb Raider Definitive Edition: $6.500
+Tom Clancy's Ghost Recon Wildlands Standard Edition: $5.800
+Tony Hawk's Pro Skater 1 + 2: $7.700
+Tony Hawk's Pro Skater 3 + 4 Cross Gen Edition: $29.000
+TopSpin 2K25: $17.200
+Ultimate Marvel vs Capcom 3: $8.200
+Unravel Two: $5.500
+Until Dawn (PS5): $29.000
+Undisputed Championship Edition (PS5): $37.500
+Warhammer 40000 Space Marine 2 (PS5): $25.000
+Watch Dogs 2 Deluxe Edition: $19.800
+WATCH_DOGS Complete Edition: $9.100
+Way Of The Hunter (PS5): $11.600
+Wolfenstein II The New Colossus: $9.100
+WRC 9 Deluxe Edition FIA World Rally Championship: $9.100
+WRC Generations Fully Loaded Edition: $15.100
+Wreckfest Complete Edition (PS4): $17.200
+Wreckfest (PS4): $11.600
+Wreckfest PlayStation 5 Version: $14.700
+WWE 2K26 (PS5): $56.000
+Yakuza 0 Director's Cut (PS5): $29.000
+Yakuza Like A Dragon Hero Edition: $12.500
+Zombie Army Trilogy: $12.200
 `;
 
     const catalogo = catalogoTexto.trim().split("\n").map((linea, index) => {
@@ -826,10 +888,6 @@ Zombie Army 4 Dead War: $8.800
     });
 
     const catalogoJuegos = document.getElementById("catalogoJuegos");
-    const pantallaMantenimiento = document.getElementById("pantallaMantenimiento");
-    const formMantenimiento = document.getElementById("formMantenimiento");
-    const claveMantenimiento = document.getElementById("claveMantenimiento");
-    const errorClave = document.getElementById("errorClave");
     const busqueda = document.getElementById("busqueda");
     const botonesFiltro = document.querySelectorAll("[data-filtro]");
     const contador = document.getElementById("contador");
@@ -854,27 +912,6 @@ Zombie Army 4 Dead War: $8.800
     let usuarioActual = JSON.parse(localStorage.getItem("imagamesUsuario")) || null;
     let resenas = JSON.parse(localStorage.getItem("imagamesResenas")) || {};
     let juegoAbierto = null;
-
-    function desbloquearPagina() {
-      pantallaMantenimiento.classList.add("oculto");
-      document.body.classList.remove("bloqueado");
-    }
-
-    formMantenimiento.addEventListener("submit", (evento) => {
-      evento.preventDefault();
-      if (claveMantenimiento.value === "paulito06") {
-        sessionStorage.setItem("imagamesAcceso", "ok");
-        desbloquearPagina();
-      } else {
-        errorClave.classList.add("activo");
-        claveMantenimiento.value = "";
-        claveMantenimiento.focus();
-      }
-    });
-
-    if (sessionStorage.getItem("imagamesAcceso") === "ok") {
-      desbloquearPagina();
-    }
 
     function imagenJuego(nombre) {
       const limpio = nombre.replace(/\(PS5\)/g, "").trim();
@@ -1168,4 +1205,4 @@ Zombie Army 4 Dead War: $8.800
     renderCatalogo();
   </script>
 </body>
-</html>
+<html>
